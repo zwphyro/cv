@@ -1,0 +1,41 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directories:
+      - "/apps/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      payload:
+        patterns:
+          - "payload"
+          - "@payloadcms/*"
+      lottie:
+        patterns:
+          - "@lottiefiles/*"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      next:
+        patterns:
+          - "next"
+          - "eslint-config-next"
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      - dependency-name: "typescript"
+        versions: [">= 7"]
+      - dependency-name: "eslint"
+        versions: [">= 10"]
+      - dependency-name: "graphql"
+        versions: [">= 17"]
+      - dependency-name: "@types/node"
+        versions: [">= 25"]
+    open-pull-requests-limit: 10
