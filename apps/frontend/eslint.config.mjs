@@ -24,6 +24,9 @@ export default defineConfig([
     "dist",
     "node_modules",
     "src/lib/api/v1.d.ts",
+    "src/payload-types.ts",
+    "src/migrations/**",
+    "src/app/(payload)/**",
   ]),
 
   js.configs.recommended,

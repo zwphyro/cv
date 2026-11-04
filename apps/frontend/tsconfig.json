@@ -36,6 +36,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@payload-config": [
+        "./src/payload.config.ts"
       ]
     }
   },
@@ -48,6 +51,7 @@
     "**/*.mts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/migrations"
   ]
 }
