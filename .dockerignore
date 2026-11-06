@@ -12,7 +12,6 @@
 Dockerfile
 .dockerignore
 **/README.md
-apps/backend
 **/.claude
 **/.vscode
 **/*.log

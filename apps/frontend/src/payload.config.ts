@@ -6,6 +6,8 @@ import { buildConfig } from "payload";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
 
+import { env } from "@/lib/env";
+
 import { Media } from "./collections/Media";
 import { Users } from "./collections/Users";
 
@@ -21,17 +23,17 @@ export default buildConfig({
   },
   collections: [Users, Media],
   editor: lexicalEditor(),
-  secret: process.env.CMS_SECRET ?? "",
+  secret: env.cmsSecret,
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
   db: postgresAdapter({
     pool: {
-      host: process.env.POSTGRES_HOST ?? "",
-      port: Number(process.env.POSTGRES_PORT ?? 5432),
-      user: process.env.CMS_DB_USER ?? "",
-      password: process.env.CMS_DB_PASSWORD ?? "",
-      database: process.env.CMS_DB_NAME ?? "",
+      host: env.postgresHost,
+      port: env.postgresPort,
+      user: env.cmsDbUser,
+      password: env.cmsDbPassword,
+      database: env.cmsDbName,
     },
     push: false,
   }),
@@ -41,16 +43,37 @@ export default buildConfig({
       collections: {
         media: true,
       },
-      bucket: process.env.S3_BUCKET ?? "",
+      bucket: env.s3Bucket,
       config: {
-        endpoint: process.env.S3_ENDPOINT,
-        region: process.env.S3_REGION,
+        endpoint: env.s3Endpoint,
+        region: env.s3Region,
         credentials: {
-          accessKeyId: process.env.S3_ACCESS_KEY ?? "",
-          secretAccessKey: process.env.S3_SECRET_KEY ?? "",
+          accessKeyId: env.s3AccessKeyId,
+          secretAccessKey: env.s3SecretAccessKey,
         },
         forcePathStyle: true,
       },
     }),
   ],
+  onInit: async (payload) => {
+    const email = env.cmsAdminEmail;
+    const password = env.cmsAdminPassword;
+
+    if (!email || !password) {
+      return;
+    }
+
+    const { totalDocs } = await payload.count({ collection: "users" });
+
+    if (totalDocs > 0) {
+      return;
+    }
+
+    await payload.create({
+      collection: "users",
+      data: { email, password },
+    });
+
+    payload.logger.info(`Created admin user ${email}`);
+  },
 });
