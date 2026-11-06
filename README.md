@@ -20,6 +20,7 @@ Visit [my website](maxim-starodubov.dev) to see this project in action.
   docker compose up --build
   ```
   This also creates all neccessary roles and databases for Postgres and provisions bucket for S3. It also runs migrations.
+
 3. Once it's up:
   - Frontend: http://localhost:3000
   - CMS admin: http://localhost:3000/admin
