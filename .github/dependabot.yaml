@@ -11,9 +11,6 @@ updates:
         patterns:
           - "payload"
           - "@payloadcms/*"
-      lottie:
-        patterns:
-          - "@lottiefiles/*"
       react:
         patterns:
           - "react"
@@ -37,5 +34,18 @@ updates:
       - dependency-name: "graphql"
         versions: [">= 17"]
       - dependency-name: "@types/node"
+        versions: [">= 25"]
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: "docker"
+    directories:
+      - "/"
+      - "/apps/backend"
+      - "/apps/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    ignore:
+      - dependency-name: "node"
         versions: [">= 25"]
     open-pull-requests-limit: 10
