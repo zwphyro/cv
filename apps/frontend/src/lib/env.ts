@@ -1,54 +1,50 @@
-function required(name: string): string {
-  const value = process.env[name];
-  if (!value && !process.env.SKIP_ENV_VALIDATION) {
-    throw new Error(`${name} is not set`);
+import { z } from "zod";
+
+const blankAsUndefined = <T extends z.ZodType>(schema: T) =>
+  z.preprocess((value) => (value === "" ? undefined : value), schema);
+
+const required = z.string({ error: "is not set" }).min(1, "is not set");
+
+const port = z
+  .string({ error: "is not set" })
+  .regex(/^\d+$/, "must be a number")
+  .transform(Number)
+  .pipe(z.number().int().min(1).max(65535));
+
+const schema = z
+  .object({
+    POSTGRES_HOST: required,
+    POSTGRES_PORT: port,
+    CMS_DB_NAME: required,
+    CMS_DB_USER: required,
+    CMS_DB_PASSWORD: required,
+    CMS_SECRET: required,
+    CMS_ADMIN_EMAIL: blankAsUndefined(z.email().optional()),
+    CMS_ADMIN_PASSWORD: blankAsUndefined(z.string().optional()),
+    S3_ENDPOINT: blankAsUndefined(z.url({ protocol: /^https?$/ }).optional()),
+    S3_REGION: blankAsUndefined(z.string().default("us-east-1")),
+    S3_BUCKET: required,
+    S3_ACCESS_KEY_ID: required,
+    S3_SECRET_ACCESS_KEY: required,
+  })
+  .refine((env) => Boolean(env.CMS_ADMIN_EMAIL) === Boolean(env.CMS_ADMIN_PASSWORD), {
+    message: "CMS_ADMIN_EMAIL and CMS_ADMIN_PASSWORD must be set together",
+    path: ["CMS_ADMIN_EMAIL"],
+  });
+
+type Env = z.infer<typeof schema>;
+
+function loadEnv(): Env {
+  // `next build` imports payload.config without runtime variables; the values are never used there
+  if (process.env.SKIP_ENV_VALIDATION) {
+    return process.env as unknown as Env;
   }
-  return value ?? "";
-}
 
-function optional(name: string, defaultValue = ""): string {
-  return process.env[name] ?? defaultValue;
-}
-
-function port(name: string): number {
-  const value = required(name);
-  const port = Number(value);
-  if ((!/^\d+$/.test(value) || port < 1 || port > 65535) && !process.env.SKIP_ENV_VALIDATION) {
-    throw new Error(`${name} must be a port number (1-65535), got "${value}"`);
+  const result = schema.safeParse(process.env);
+  if (!result.success) {
+    throw new Error(`Invalid environment variables:\n${z.prettifyError(result.error)}`);
   }
-  return port;
+  return result.data;
 }
 
-export const env = {
-  get postgresHost() {
-    return required("POSTGRES_HOST");
-  },
-  get postgresPort() {
-    return port("POSTGRES_PORT");
-  },
-  get cmsDbName() {
-    return required("CMS_DB_NAME");
-  },
-  get cmsDbUser() {
-    return required("CMS_DB_USER");
-  },
-  get cmsDbPassword() {
-    return required("CMS_DB_PASSWORD");
-  },
-  get cmsSecret() {
-    return required("CMS_SECRET");
-  },
-  cmsAdminEmail: optional("CMS_ADMIN_EMAIL"),
-  cmsAdminPassword: optional("CMS_ADMIN_PASSWORD"),
-  s3Endpoint: optional("S3_ENDPOINT") || undefined,
-  s3Region: optional("S3_REGION", "us-east-1"),
-  get s3Bucket() {
-    return required("S3_BUCKET");
-  },
-  get s3AccessKeyId() {
-    return required("S3_ACCESS_KEY_ID");
-  },
-  get s3SecretAccessKey() {
-    return required("S3_SECRET_ACCESS_KEY");
-  },
-} as const;
+export const env = loadEnv();

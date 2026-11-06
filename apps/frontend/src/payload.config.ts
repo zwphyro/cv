@@ -23,17 +23,17 @@ export default buildConfig({
   },
   collections: [Users, Media],
   editor: lexicalEditor(),
-  secret: env.cmsSecret,
+  secret: env.CMS_SECRET,
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
   db: postgresAdapter({
     pool: {
-      host: env.postgresHost,
-      port: env.postgresPort,
-      user: env.cmsDbUser,
-      password: env.cmsDbPassword,
-      database: env.cmsDbName,
+      host: env.POSTGRES_HOST,
+      port: env.POSTGRES_PORT,
+      user: env.CMS_DB_USER,
+      password: env.CMS_DB_PASSWORD,
+      database: env.CMS_DB_NAME,
     },
     push: false,
   }),
@@ -43,21 +43,21 @@ export default buildConfig({
       collections: {
         media: true,
       },
-      bucket: env.s3Bucket,
+      bucket: env.S3_BUCKET,
       config: {
-        endpoint: env.s3Endpoint,
-        region: env.s3Region,
+        endpoint: env.S3_ENDPOINT,
+        region: env.S3_REGION,
         credentials: {
-          accessKeyId: env.s3AccessKeyId,
-          secretAccessKey: env.s3SecretAccessKey,
+          accessKeyId: env.S3_ACCESS_KEY_ID,
+          secretAccessKey: env.S3_SECRET_ACCESS_KEY,
         },
         forcePathStyle: true,
       },
     }),
   ],
   onInit: async (payload) => {
-    const email = env.cmsAdminEmail;
-    const password = env.cmsAdminPassword;
+    const email = env.CMS_ADMIN_EMAIL;
+    const password = env.CMS_ADMIN_PASSWORD;
 
     if (!email || !password) {
       return;
