@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Frontend
 
-## Getting Started
+### Dependencies
 
-First, run the development server:
+> [!WARNING] Use Node.js version 24 or higher.  
+> This documentation uses pnpm as the package manager, but you can use any package manager that you like.
 
+To install dependencies use the following command:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To install locked dependencies for CI or production use the following command from the root of this repository:
+```bash
+pnpm install --frozen-lockfile
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Development
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To start a development server use the following command:
+```bash
+pnpm dev
+```
 
-## Learn More
+To check for linting errors use the following command:
+```bash
+pnpm lint
+```
 
-To learn more about Next.js, take a look at the following resources:
+You can fix most linting errors with the following command:
+```bash
+pnpm lint:fix
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To build the application use the following command:
+```bash
+pnpm build
+```
 
-## Deploy on Vercel
+To run a production build use the following command:
+```bash
+pnpm start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Production
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+In the deployed stand/production environment this app runs from the Docker image built by `apps/frontend/Dockerfile`, not from `pnpm start` directly.
+
+The image is a multi-stage build on top of Next's `output: "standalone"`: dependencies are installed once (a layer that only changes with `package.json` / `pnpm-lock.yaml`), the app is built on top of them. The final stage contains only the standalone server: `server.js` with the dependencies the build traced as actually used, `public`, and `.next/static`. It has no pnpm and no sources, runs as the unprivileged user (only `.next` is writable for Next's fetch cache), and starts with `node server.js`, which reads `PORT` and `HOSTNAME`. No environment setting is baked into the image: every URL and key is read at runtime, so the same image serves every environment.
+
+### Environment variables
+See [environment documentation](../../docs/environment.md) for a detailed overview of environment variables.
+
+List of used environment variables available in [`.env.example`](./.env.example) file.
+
