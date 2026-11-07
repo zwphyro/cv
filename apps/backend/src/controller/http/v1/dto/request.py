@@ -28,8 +28,8 @@ class RequestSchema(BaseModel):
     id: uuid.UUID
 
     author: str
-    title: str
-    content: str
+    email: str
+    message: str
 
     created_at: datetime
     updated_at: datetime

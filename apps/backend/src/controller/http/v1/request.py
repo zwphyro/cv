@@ -12,7 +12,7 @@ router = APIRouter()
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=RequestSchema)
-async def create_news_post(
+async def create_request(
     new_request: CreateRequestRequest,
     service: ServiceDependency,
 ):
@@ -81,5 +81,5 @@ async def update_request(
         status.HTTP_404_NOT_FOUND: {"model": HTTPExceptionSchema},
     },
 )
-async def delete_news_post(id: str, service: ServiceDependency):
+async def delete_request(id: str, service: ServiceDependency):
     return await service.delete_request(id)

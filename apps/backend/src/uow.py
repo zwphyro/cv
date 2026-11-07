@@ -3,7 +3,7 @@ from types import TracebackType
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.requests.repository import RequestRepository
+from src.repository.postgres.request import RequestRepository
 
 
 class UnitOfWork:
