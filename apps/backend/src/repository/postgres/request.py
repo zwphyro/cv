@@ -1,7 +1,7 @@
 from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.requests.models import Request
+from src.entity.request import Request
 
 
 class RequestRepository:

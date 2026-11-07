@@ -1,11 +1,11 @@
 from fastapi import APIRouter, status
 
-from src.requests.dependencies import ServiceDependency
-from src.requests.schemas import (
+from src.controller.http.v1.dto.request import (
     CreateRequestRequest,
     RequestSchema,
     UpdateRequestRequest,
 )
+from src.requests.dependencies import ServiceDependency
 from src.schemas import HTTPExceptionSchema
 
 router = APIRouter()

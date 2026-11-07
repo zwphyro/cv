@@ -1,12 +1,12 @@
 import logging
 
-from src.exceptions import NotFoundError
+from src.entity.errors import NotFoundError
 from src.uow import UnitOfWork
 
 log = logging.getLogger(__name__)
 
 
-class RequestsService:
+class RequestsUsecase:
     def __init__(
         self,
         uow: UnitOfWork,

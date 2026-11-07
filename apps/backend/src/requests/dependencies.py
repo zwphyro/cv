@@ -3,13 +3,13 @@ from typing import Annotated
 from fastapi import Depends
 
 from src.dependencies import UOWDependency
-from src.requests.service import RequestsService
+from src.usecase.request import RequestsUsecase
 
 
-def get_service(
+def get_usecase(
     uow: UOWDependency,
 ):
-    return RequestsService(uow)
+    return RequestsUsecase(uow)
 
 
-ServiceDependency = Annotated[RequestsService, Depends(get_service)]
+ServiceDependency = Annotated[RequestsUsecase, Depends(get_usecase)]
