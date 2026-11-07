@@ -109,7 +109,6 @@ dependencies = [
     { name = "asyncpg" },
     { name = "fastapi", extra = ["standard"] },
     { name = "sqlalchemy", extra = ["asyncio"] },
-    { name = "taskipy" },
 ]
 
 [package.dev-dependencies]
@@ -117,6 +116,7 @@ dev = [
     { name = "basedpyright" },
     { name = "import-linter" },
     { name = "ruff" },
+    { name = "taskipy" },
 ]
 
 [package.metadata]
@@ -125,7 +125,6 @@ requires-dist = [
     { name = "asyncpg", specifier = ">=0.32.0" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.162.0" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = ">=2.1.8" },
-    { name = "taskipy", specifier = ">=1.14.1" },
 ]
 
 [package.metadata.requires-dev]
@@ -133,6 +132,7 @@ dev = [
     { name = "basedpyright", specifier = ">=1.40.2" },
     { name = "import-linter", specifier = ">=2.16" },
     { name = "ruff", specifier = ">=0.17.4" },
+    { name = "taskipy", specifier = ">=1.14.1" },
 ]
 
 [[package]]

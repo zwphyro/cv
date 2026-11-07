@@ -2,7 +2,7 @@
 Detailed overview of environment variables.
 
 ### Compose
-| Variable | Used by | Required | Default | GitHub | Description |
+| Variable | Used by | Required | Default | GitHub | Comment |
 |---|---|---|---|---|---|
 | `COMPOSE_PROFILES` | compose | No | empty | - | Compose profiles to start. `dev` adds the dev-only RustFS. |
 
@@ -24,9 +24,11 @@ Detailed overview of environment variables.
 ### Backend
 | Variable | Used by | Required | Default | GitHub | Comment |
 |---|---|---|---|---|---|
+| `BACKEND_PORT` | compose | No | `8000` | var | |
 | `BACKEND_DB_NAME` | backend, postgres | Yes | - | var | |
 | `BACKEND_DB_USER` | backend, postgres | Yes | - | var | |
 | `BACKEND_DB_PASSWORD` | backend, postgres | Yes | - | secret | |
+| `BACKEND_LOG_LEVEL` | backend | No | `INFO` | var | |
 
 
 ### Postgres
@@ -35,7 +37,7 @@ At first startup Postgres runs [initialization script](../infra/postgres/init.sh
 | Variable | Used by | Required | Default | GitHub | Comment |
 |---|---|---|---|---|---|
 | `POSTGRES_USER` | postgres | Yes | - | var | Admin (superuser). Used only by the Postgres container to create the databases and roles, the apps never connect with it. |
-| `POSTGRES_PASSWORD` | postgres, postgres | Yes | - | secret | |
+| `POSTGRES_PASSWORD` | postgres | Yes | - | secret | |
 | `POSTGRES_PORT` | compose | No | `5432` | var | |
 
 #### RustFS & S3

@@ -19,6 +19,14 @@ x-frontend-env: &frontend-env
   S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-${RUSTFS_ACCESS_KEY}}
   S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:-${RUSTFS_SECRET_KEY}}
 
+x-backend-env: &backend-env
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: 5432
+  BACKEND_DB_NAME: ${BACKEND_DB_NAME:?}
+  BACKEND_DB_USER: ${BACKEND_DB_USER:?}
+  BACKEND_DB_PASSWORD: ${BACKEND_DB_PASSWORD:?}
+  BACKEND_LOG_LEVEL: ${BACKEND_LOG_LEVEL:-INFO}
+
 services:
   frontend:
     container_name: frontend
@@ -61,6 +69,39 @@ services:
       dockerfile: apps/frontend/Dockerfile
       target: migrate
     environment: *frontend-env
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - default_network
+    logging: *default-logging
+
+  backend:
+    container_name: backend
+    image: cv_backend
+    build:
+      context: apps/backend
+      dockerfile: Dockerfile
+    environment: *backend-env
+    ports:
+      - 127.0.0.1:${BACKEND_PORT:-8000}:8000
+    restart: always
+    depends_on:
+      backend_migrate:
+        condition: service_completed_successfully
+    networks:
+      - default_network
+    logging: *default-logging
+
+  backend_migrate:
+    container_name: backend_migrate
+    image: cv_backend
+    build:
+      context: apps/backend
+      dockerfile: Dockerfile
+    environment: *backend-env
+    command: ["alembic", "upgrade", "head"]
     restart: "no"
     depends_on:
       postgres:
