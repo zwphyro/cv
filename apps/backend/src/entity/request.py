@@ -1,3 +1,5 @@
+from typing import TypedDict
+
 from sqlalchemy.orm import Mapped
 
 from src.entity.base import Base, created_at, deleted_at, id, updated_at
@@ -13,3 +15,9 @@ class Request(Base):
     created_at: Mapped[created_at]
     updated_at: Mapped[updated_at]
     deleted_at: Mapped[deleted_at]
+
+
+class RequestPatch(TypedDict, total=False):
+    author: str
+    email: str
+    message: str

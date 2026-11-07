@@ -1,9 +1,11 @@
-from typing import Any
+from collections.abc import Mapping
+from typing import Unpack
+from uuid import UUID
 
 from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.entity.request import Request
+from src.entity.request import Request, RequestPatch
 
 
 class PostgresRequestRepository:
@@ -16,28 +18,28 @@ class PostgresRequestRepository:
 
         return result.scalars().all()
 
-    async def get_by_id(self, id: str):
+    async def get_by_id(self, id: UUID):
         query = select(Request).where(Request.id == id, Request.deleted_at.is_(None))
         result = await self._session.execute(query)
 
         return result.scalars().first()
 
-    async def create(self, author: str, email: str, message: str):
-        post = Request(author=author, email=email, message=message)
-        self._session.add(post)
+    def add(self, request: Request):
+        self._session.add(request)
 
-        return post
+    async def update_by_id(self, id: UUID, **values: Unpack[RequestPatch]):
+        return await self._update_by_id(id, values)
 
-    async def update_by_id(self, id: str, **values: Any):
+    async def delete_by_id(self, id: UUID):
+        return await self._update_by_id(id, {"deleted_at": func.now()})
+
+    async def _update_by_id(self, id: UUID, values: Mapping[str, object]):
         query = (
             update(Request)
             .where(Request.id == id, Request.deleted_at.is_(None))
-            .values(**values)
+            .values(values)
             .returning(Request)
         )
         result = await self._session.execute(query)
 
         return result.scalars().first()
-
-    async def delete_by_id(self, id: str):
-        return await self.update_by_id(id, deleted_at=func.now())

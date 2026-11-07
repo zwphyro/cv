@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, status
 
 from src.controller.http.errors import error_responses
@@ -29,7 +31,7 @@ async def create_request(
     response_model=RequestSchema,
     responses=error_responses(RequestNotFoundError),
 )
-async def get_requests(id: str, usecase: RequestUsecaseDep):
+async def get_request(id: UUID, usecase: RequestUsecaseDep):
     return await usecase.get_request(id)
 
 
@@ -44,7 +46,7 @@ async def list_requests(usecase: RequestUsecaseDep):
     responses=error_responses(RequestNotFoundError),
 )
 async def replace_request(
-    id: str,
+    id: UUID,
     new_request: CreateRequestRequest,
     usecase: RequestUsecaseDep,
 ):
@@ -62,7 +64,7 @@ async def replace_request(
     responses=error_responses(RequestNotFoundError),
 )
 async def update_request(
-    id: str, new_request: UpdateRequestRequest, usecase: RequestUsecaseDep
+    id: UUID, new_request: UpdateRequestRequest, usecase: RequestUsecaseDep
 ):
     return await usecase.update_request(
         id, **new_request.model_dump(exclude_unset=True)
@@ -74,5 +76,5 @@ async def update_request(
     response_model=RequestSchema,
     responses=error_responses(RequestNotFoundError),
 )
-async def delete_request(id: str, usecase: RequestUsecaseDep):
+async def delete_request(id: UUID, usecase: RequestUsecaseDep):
     return await usecase.delete_request(id)
