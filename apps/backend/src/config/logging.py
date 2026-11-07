@@ -2,7 +2,7 @@ import logging.config
 
 import yaml
 
-from src.settings import BASE_DIR
+from src.config.settings import BASE_DIR
 
 
 def setup_logging(log_level: str):

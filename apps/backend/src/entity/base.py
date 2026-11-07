@@ -4,16 +4,8 @@ from re import sub
 from typing import Annotated
 
 from sqlalchemy import DateTime, func
-from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import DeclarativeBase, declared_attr, mapped_column
-
-from src.settings import get_settings
-
-settings = get_settings()
-
-engine = create_async_engine(settings.db_url)
-AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False)
-
 
 id = Annotated[uuid.UUID, mapped_column(primary_key=True, default=uuid.uuid4)]
 created_at = Annotated[

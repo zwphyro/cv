@@ -1,13 +1,12 @@
 from typing import Annotated
 
-from fastapi import Depends
+from fastapi import Depends, Request
 
-from src.db import AsyncSessionLocal
 from src.uow import UnitOfWork
 
 
-async def get_uow():
-    async with UnitOfWork(AsyncSessionLocal) as uow:
+async def get_uow(request: Request):
+    async with UnitOfWork(request.app.state.database.sessionmaker) as uow:
         yield uow
 
 

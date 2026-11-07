@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped
 
-from src.db import Base, created_at, deleted_at, id, updated_at
+from src.entity.base import Base, created_at, deleted_at, id, updated_at
 
 
 class Request(Base):

@@ -1,8 +1,8 @@
 import uvicorn
 
-from src.args import get_args
-from src.logging import setup_logging
-from src.settings import get_settings
+from src.config.args import get_args
+from src.config.logging import setup_logging
+from src.config.settings import get_settings
 
 if __name__ == "__main__":
     settings = get_settings()
