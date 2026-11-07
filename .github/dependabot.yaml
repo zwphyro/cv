@@ -37,6 +37,25 @@ updates:
         versions: [">= 25"]
     open-pull-requests-limit: 10
 
+  - package-ecosystem: "uv"
+    directories:
+      - "/apps/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      database:
+        patterns:
+          - "sqlalchemy"
+          - "alembic"
+          - "asyncpg"
+      lint:
+        patterns:
+          - "ruff"
+          - "basedpyright"
+          - "import-linter"
+    open-pull-requests-limit: 10
+
   - package-ecosystem: "docker"
     directories:
       - "/"
