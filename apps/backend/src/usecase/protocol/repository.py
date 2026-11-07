@@ -1,0 +1,16 @@
+from collections.abc import Sequence
+from typing import Any, Protocol
+
+from src.entity.request import Request
+
+
+class RequestRepository(Protocol):
+    async def list(self) -> Sequence[Request]: ...
+
+    async def get_by_id(self, id: str) -> Request | None: ...
+
+    async def create(self, author: str, email: str, message: str) -> Request: ...
+
+    async def update_by_id(self, id: str, **values: Any) -> Request | None: ...
+
+    async def delete_by_id(self, id: str) -> Request | None: ...

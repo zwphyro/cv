@@ -16,7 +16,7 @@ async def lifespan(app: FastAPI):
     await database.dispose()
 
 
-def create_app() -> FastAPI:
+def create_app():
     app = FastAPI(title="Requests API", lifespan=lifespan)
     app.include_router(router)
     ExceptionRegistry.apply(app)

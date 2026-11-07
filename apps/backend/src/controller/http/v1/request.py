@@ -5,7 +5,7 @@ from src.controller.http.v1.dto.request import (
     RequestSchema,
     UpdateRequestRequest,
 )
-from src.requests.dependencies import ServiceDependency
+from src.di.usecase import RequestUsecaseDep
 from src.schemas import HTTPExceptionSchema
 
 router = APIRouter()
@@ -14,9 +14,9 @@ router = APIRouter()
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=RequestSchema)
 async def create_request(
     new_request: CreateRequestRequest,
-    service: ServiceDependency,
+    usecase: RequestUsecaseDep,
 ):
-    return await service.create_request(
+    return await usecase.create_request(
         author=new_request.author,
         email=new_request.email,
         message=new_request.message,
@@ -30,13 +30,13 @@ async def create_request(
         status.HTTP_404_NOT_FOUND: {"model": HTTPExceptionSchema},
     },
 )
-async def get_requests(id: str, service: ServiceDependency):
-    return await service.get_request(id)
+async def get_requests(id: str, usecase: RequestUsecaseDep):
+    return await usecase.get_request(id)
 
 
 @router.get("/", response_model=list[RequestSchema])
-async def list_requests(service: ServiceDependency):
-    return await service.list_requests()
+async def list_requests(usecase: RequestUsecaseDep):
+    return await usecase.list_requests()
 
 
 @router.put(
@@ -49,9 +49,9 @@ async def list_requests(service: ServiceDependency):
 async def replace_request(
     id: str,
     new_request: CreateRequestRequest,
-    service: ServiceDependency,
+    usecase: RequestUsecaseDep,
 ):
-    return await service.replace_request(
+    return await usecase.replace_request(
         id,
         author=new_request.author,
         email=new_request.email,
@@ -67,10 +67,10 @@ async def replace_request(
     },
 )
 async def update_request(
-    id: str, new_news_post: UpdateRequestRequest, service: ServiceDependency
+    id: str, new_request: UpdateRequestRequest, usecase: RequestUsecaseDep
 ):
-    return await service.update_request(
-        id, **new_news_post.model_dump(exclude_unset=True)
+    return await usecase.update_request(
+        id, **new_request.model_dump(exclude_unset=True)
     )
 
 
@@ -81,5 +81,5 @@ async def update_request(
         status.HTTP_404_NOT_FOUND: {"model": HTTPExceptionSchema},
     },
 )
-async def delete_request(id: str, service: ServiceDependency):
-    return await service.delete_request(id)
+async def delete_request(id: str, usecase: RequestUsecaseDep):
+    return await usecase.delete_request(id)

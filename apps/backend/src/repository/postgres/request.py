@@ -1,10 +1,12 @@
+from typing import Any
+
 from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.entity.request import Request
 
 
-class RequestRepository:
+class PostgresRequestRepository:
     def __init__(self, session: AsyncSession):
         self._session = session
 
@@ -26,7 +28,7 @@ class RequestRepository:
 
         return post
 
-    async def update_by_id(self, id: str, **values):
+    async def update_by_id(self, id: str, **values: Any):
         query = (
             update(Request)
             .where(Request.id == id, Request.deleted_at.is_(None))
