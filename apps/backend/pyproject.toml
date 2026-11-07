@@ -12,6 +12,12 @@ dependencies = [
     "taskipy>=1.14.1",
 ]
 
+[dependency-groups]
+dev = [
+    "import-linter>=2.16",
+    "ruff>=0.17.4",
+]
+
 [tool.taskipy.tasks]
 start = "python -m command.run"
 
@@ -24,6 +30,19 @@ migrate-check-history = "alembic history"
 
 lint = "ruff check . && ruff format --check . && lint-imports"
 lint-fix = "ruff format . && ruff check --fix ."
+
+[tool.basedpyright]
+venvPath = "."
+venv = ".venv"
+# SQLAlchemy declarative models initialize Mapped attributes on class creation
+reportUninitializedInstanceVariable = false
+# Any comes from untyped boundaries (pydantic dumps, FastAPI signatures)
+reportAny = false
+reportExplicitAny = false
+# noisy rules of the recommended mode
+reportUnannotatedClassAttribute = false
+reportUnusedCallResult = false
+reportImplicitOverride = false
 
 [tool.ruff.lint]
 select = ["E", "W", "F", "I", "B", "UP", "SIM", "RUF"]
@@ -80,10 +99,4 @@ forbidden_modules = [
     "src.repository",
     "src.usecase",
     "src.entity",
-]
-
-[dependency-groups]
-dev = [
-    "import-linter>=2.16",
-    "ruff>=0.17.4",
 ]
