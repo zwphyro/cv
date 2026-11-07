@@ -8,7 +8,7 @@ from src.config.settings import BASE_DIR
 def setup_logging(log_level: str):
     config_file = BASE_DIR / "config" / "logging.yaml"
 
-    with open(config_file, "r") as f:
+    with open(config_file) as f:
         config = yaml.safe_load(f)
 
     for logger_name in config.get("loggers", {}):

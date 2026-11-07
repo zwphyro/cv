@@ -21,3 +21,69 @@ migrate-downgrade-to = "alembic downgrade"
 migrate-revision = "alembic revision --autogenerate -m"
 migrate-check-current = "alembic current"
 migrate-check-history = "alembic history"
+
+lint = "ruff check . && ruff format --check . && lint-imports"
+lint-fix = "ruff format . && ruff check --fix ."
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+# revision template imports op and sa for manually written migrations
+"migrations/versions/*" = ["F401"]
+
+[tool.importlinter]
+root_packages = ["src"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Layers"
+type = "layers"
+layers = [
+    "src.main",
+    "src.controller",
+    "src.di",
+    "src.repository",
+    "src.usecase",
+    "src.entity",
+]
+
+[[tool.importlinter.contracts]]
+name = "Entity is independent of the application and web framework"
+type = "forbidden"
+source_modules = ["src.entity"]
+forbidden_modules = ["src.config", "src.pkg", "fastapi", "starlette", "pydantic"]
+
+[[tool.importlinter.contracts]]
+name = "Usecase depends only on entity and protocols"
+type = "forbidden"
+source_modules = ["src.usecase"]
+forbidden_modules = ["src.config", "src.pkg", "sqlalchemy", "fastapi", "starlette"]
+allow_indirect_imports = true
+
+[[tool.importlinter.contracts]]
+name = "Controller does not touch infrastructure"
+type = "forbidden"
+source_modules = ["src.controller"]
+forbidden_modules = ["src.repository", "src.pkg", "sqlalchemy"]
+allow_indirect_imports = true
+
+[[tool.importlinter.contracts]]
+name = "Pkg is standalone"
+type = "forbidden"
+source_modules = ["src.pkg"]
+forbidden_modules = [
+    "src.main",
+    "src.config",
+    "src.controller",
+    "src.di",
+    "src.repository",
+    "src.usecase",
+    "src.entity",
+]
+
+[dependency-groups]
+dev = [
+    "import-linter>=2.16",
+    "ruff>=0.17.4",
+]

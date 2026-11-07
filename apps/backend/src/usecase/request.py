@@ -36,9 +36,7 @@ class RequestUsecase:
     async def list_requests(self):
         return await self._requests.list()
 
-    async def replace_request(
-        self, id: UUID, *, author: str, email: str, message: str
-    ):
+    async def replace_request(self, id: UUID, *, author: str, email: str, message: str):
         return await self.update_request(
             id, author=author, email=email, message=message
         )
