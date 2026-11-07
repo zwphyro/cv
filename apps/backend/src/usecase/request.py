@@ -1,6 +1,6 @@
 import logging
 
-from src.entity.errors import NotFoundError
+from src.entity.errors import RequestNotFoundError
 from src.usecase.protocol.repository import RequestRepository
 from src.usecase.protocol.uow import UnitOfWork
 
@@ -25,7 +25,7 @@ class RequestUsecase:
     async def get_request(self, id: str):
         news_post = await self._requests.get_by_id(id)
         if news_post is None:
-            raise NotFoundError
+            raise RequestNotFoundError
 
         return news_post
 
@@ -43,7 +43,7 @@ class RequestUsecase:
 
         news_post = await self._requests.update_by_id(id, **values)
         if news_post is None:
-            raise NotFoundError
+            raise RequestNotFoundError
 
         await self._uow.commit()
         return news_post
@@ -51,7 +51,7 @@ class RequestUsecase:
     async def delete_request(self, id: str):
         news_post = await self._requests.delete_by_id(id)
         if news_post is None:
-            raise NotFoundError
+            raise RequestNotFoundError
 
         await self._uow.commit()
         return news_post

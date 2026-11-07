@@ -1,7 +1,16 @@
-from fastapi import status
-
-from src.exception_registry import ExceptionRegistry
+from typing import ClassVar
 
 
-@ExceptionRegistry.register(status.HTTP_404_NOT_FOUND)
-class NotFoundError(Exception): ...
+class AppError(Exception):
+    message: ClassVar[str] = "Application error"
+
+    def __init__(self, message: str | None = None):
+        super().__init__(message or self.message)
+
+
+class NotFoundError(AppError):
+    message = "Resource not found"
+
+
+class RequestNotFoundError(NotFoundError):
+    message = "Request not found"

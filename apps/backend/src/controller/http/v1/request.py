@@ -1,12 +1,13 @@
 from fastapi import APIRouter, status
 
+from src.controller.http.errors import error_responses
 from src.controller.http.v1.dto.request import (
     CreateRequestRequest,
     RequestSchema,
     UpdateRequestRequest,
 )
 from src.di.usecase import RequestUsecaseDep
-from src.schemas import HTTPExceptionSchema
+from src.entity.errors import RequestNotFoundError
 
 router = APIRouter()
 
@@ -26,9 +27,7 @@ async def create_request(
 @router.get(
     "/{id}",
     response_model=RequestSchema,
-    responses={
-        status.HTTP_404_NOT_FOUND: {"model": HTTPExceptionSchema},
-    },
+    responses=error_responses(RequestNotFoundError),
 )
 async def get_requests(id: str, usecase: RequestUsecaseDep):
     return await usecase.get_request(id)
@@ -42,9 +41,7 @@ async def list_requests(usecase: RequestUsecaseDep):
 @router.put(
     "/{id}",
     response_model=RequestSchema,
-    responses={
-        status.HTTP_404_NOT_FOUND: {"model": HTTPExceptionSchema},
-    },
+    responses=error_responses(RequestNotFoundError),
 )
 async def replace_request(
     id: str,
@@ -62,9 +59,7 @@ async def replace_request(
 @router.patch(
     "/{id}",
     response_model=RequestSchema,
-    responses={
-        status.HTTP_404_NOT_FOUND: {"model": HTTPExceptionSchema},
-    },
+    responses=error_responses(RequestNotFoundError),
 )
 async def update_request(
     id: str, new_request: UpdateRequestRequest, usecase: RequestUsecaseDep
@@ -77,9 +72,7 @@ async def update_request(
 @router.delete(
     "/{id}",
     response_model=RequestSchema,
-    responses={
-        status.HTTP_404_NOT_FOUND: {"model": HTTPExceptionSchema},
-    },
+    responses=error_responses(RequestNotFoundError),
 )
 async def delete_request(id: str, usecase: RequestUsecaseDep):
     return await usecase.delete_request(id)
