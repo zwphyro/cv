@@ -87,6 +87,16 @@ Domain errors inherit from one of the categories in `entity/errors.py` (for exam
 5. DTOs and routes in `controller/http/v1/`, router included in `controller/http/v1/router.py`.
 6. Migration with `uv run task migrate-revision "<message>"`.
 
+### Production
+
+In the deployed stand/production environment this app runs from the Docker image built by `apps/backend/Dockerfile`.
+
+The image is a multi-stage build: production dependencies are installed by uv from the lockfile in a separate stage (a layer that only changes with `pyproject.toml` / `uv.lock`), the final stage contains only the virtual environment and the sources. It has no uv and no dev tools, runs as the unprivileged user and starts with `python -m command.run`. Migrations are applied before the start by the `backend_migrate` compose service, which runs `alembic upgrade head` in the same image. No environment setting is baked into the image: everything is read at runtime.
+
+Without `--dev` the server writes plain one-line logs ([`config/logging.yaml`](./config/logging.yaml)), with `--dev` it uses rich output ([`config/logging.dev.yaml`](./config/logging.dev.yaml)).
+
+The `/api/internal/health` endpoint is used by the container healthcheck.
+
 ### Environment variables
 See [environment documentation](../../docs/environment.md) for a detailed overview of environment variables.
 

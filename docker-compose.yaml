@@ -62,7 +62,7 @@ services:
     logging: *default-logging
 
   frontend_migrate:
-    container_name: frontend-migrate
+    container_name: frontend_migrate
     image: cv_frontend_migrate
     build:
       context: .
@@ -86,6 +86,20 @@ services:
     environment: *backend-env
     ports:
       - 127.0.0.1:${BACKEND_PORT:-8000}:8000
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "-q",
+          "-O",
+          "/dev/null",
+          "http://127.0.0.1:8000/api/internal/health",
+        ]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 5
     restart: always
     depends_on:
       backend_migrate:
@@ -97,9 +111,6 @@ services:
   backend_migrate:
     container_name: backend_migrate
     image: cv_backend
-    build:
-      context: apps/backend
-      dockerfile: Dockerfile
     environment: *backend-env
     command: ["alembic", "upgrade", "head"]
     restart: "no"

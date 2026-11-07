@@ -11,7 +11,8 @@ ENV UV_LINK_MODE=copy
 ENV UV_PYTHON_DOWNLOADS=never
 
 COPY pyproject.toml uv.lock .python-version ./
-RUN uv sync --frozen --no-dev --no-install-project
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-dev --no-install-project
 
 FROM base AS run
 

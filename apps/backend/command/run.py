@@ -8,7 +8,7 @@ if __name__ == "__main__":
     settings = get_settings()
     args = get_args()
 
-    config = setup_logging(settings.log_level)
+    config = setup_logging(settings.log_level, args.dev)
     uvicorn.run(
         "src.main:app",
         host=args.hostname,

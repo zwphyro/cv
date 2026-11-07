@@ -23,6 +23,7 @@ Visit [my website](maxim-starodubov.dev) to see this project in action.
 
 3. Once it's up:
   - Frontend: http://localhost:3000
+  - Backend API docs: http://localhost:8000/docs
   - CMS admin: http://localhost:3000/admin
   - RustFS console: http://localhost:9001
 
