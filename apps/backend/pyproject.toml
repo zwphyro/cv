@@ -14,6 +14,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "basedpyright>=1.40.2",
     "import-linter>=2.16",
     "ruff>=0.17.4",
 ]
@@ -28,7 +29,7 @@ migrate-revision = "alembic revision --autogenerate -m"
 migrate-check-current = "alembic current"
 migrate-check-history = "alembic history"
 
-lint = "ruff check . && ruff format --check . && lint-imports"
+lint = "ruff check . && ruff format --check . && basedpyright && lint-imports"
 lint-fix = "ruff format . && ruff check --fix ."
 
 [tool.basedpyright]

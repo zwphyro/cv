@@ -31,7 +31,7 @@ uv run task migrate-revision "<message>"
 
 Generated migrations are formatted and linted with ruff automatically.
 
-To check for linting errors, formatting and architecture rules use the following command:
+To check for linting errors, formatting, types ([basedpyright](https://docs.basedpyright.com/)) and architecture rules use the following command:
 ```bash
 uv run task lint
 ```
