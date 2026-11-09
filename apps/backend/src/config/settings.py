@@ -2,7 +2,7 @@ import os
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import Field
+from pydantic import Field, SecretStr, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parents[2]
@@ -18,10 +18,22 @@ class Settings(BaseSettings):
 
     log_level: str = Field(..., alias="BACKEND_LOG_LEVEL")
 
+    tg_bot_token: SecretStr | None = Field(None, alias="BACKEND_TG_BOT_TOKEN")
+    tg_chat_id: int | None = Field(None, alias="BACKEND_TG_CHAT_ID")
+
     model_config = SettingsConfigDict(
         env_file=os.path.join(BASE_DIR / ".env"),
+        env_ignore_empty=True,
         extra="ignore",
     )
+
+    @model_validator(mode="after")
+    def check_telegram(self):
+        if (self.tg_bot_token is None) != (self.tg_chat_id is None):
+            raise ValueError(
+                "BACKEND_TG_BOT_TOKEN and BACKEND_TG_CHAT_ID must be set together"
+            )
+        return self
 
     @property
     def db_url(self) -> str:

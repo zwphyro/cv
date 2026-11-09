@@ -29,6 +29,8 @@ Detailed overview of environment variables.
 | `BACKEND_DB_USER` | backend, postgres | Yes | - | var | |
 | `BACKEND_DB_PASSWORD` | backend, postgres | Yes | - | secret | |
 | `BACKEND_LOG_LEVEL` | backend | No | `INFO` | var | |
+| `BACKEND_TG_BOT_TOKEN` | backend | No | - | secret | Telegram bot token used to send notifications about new requests. Notifications are disabled when empty. |
+| `BACKEND_TG_CHAT_ID` | backend | No | - | var | Telegram chat to send notifications to. BACKEND_TG_BOT_TOKEN and BACKEND_TG_CHAT_ID must be specified or unspecified simultaneously |
 
 
 ### Postgres
