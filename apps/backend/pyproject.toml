@@ -73,13 +73,27 @@ layers = [
 name = "Entity is independent of the application and web framework"
 type = "forbidden"
 source_modules = ["src.entity"]
-forbidden_modules = ["src.config", "src.pkg", "fastapi", "starlette", "pydantic"]
+forbidden_modules = [
+    "src.config",
+    "src.pkg",
+    "fastapi",
+    "starlette",
+    "pydantic",
+    "aiogram",
+]
 
 [[tool.importlinter.contracts]]
 name = "Usecase depends only on entity and protocols"
 type = "forbidden"
 source_modules = ["src.usecase"]
-forbidden_modules = ["src.config", "src.pkg", "sqlalchemy", "fastapi", "starlette"]
+forbidden_modules = [
+    "src.config",
+    "src.pkg",
+    "sqlalchemy",
+    "fastapi",
+    "starlette",
+    "aiogram",
+]
 allow_indirect_imports = true
 
 [[tool.importlinter.contracts]]
