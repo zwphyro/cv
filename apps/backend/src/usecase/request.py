@@ -4,6 +4,7 @@ from uuid import UUID
 
 from src.entity.errors import RequestNotFoundError
 from src.entity.request import Request, RequestPatch
+from src.usecase.protocol.notifier import RequestNotifier
 from src.usecase.protocol.repository import RequestRepository
 from src.usecase.protocol.uow import UnitOfWork
 
@@ -15,15 +16,24 @@ class RequestUsecase:
         self,
         requests: RequestRepository,
         uow: UnitOfWork,
+        notifier: RequestNotifier,
     ):
         self._requests = requests
         self._uow = uow
+        self._notifier = notifier
 
     async def create_request(self, *, author: str, email: str, message: str):
         request = Request(author=author, email=email, message=message)
         self._requests.add(request)
 
         await self._uow.commit()
+
+        try:
+            await self._notifier.request_created(request)
+        except Exception:
+            # the request is already saved, a failed notification must not fail it
+            log.exception("Failed to notify about request %s", request.id)
+
         return request
 
     async def get_request(self, id: UUID):

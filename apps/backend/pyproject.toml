@@ -63,7 +63,7 @@ layers = [
     "src.main",
     "src.controller",
     "src.di",
-    "src.repository",
+    "src.repository | src.gateway",
     "src.usecase",
     "src.entity",
 ]
@@ -85,7 +85,7 @@ allow_indirect_imports = true
 name = "Controller does not touch infrastructure"
 type = "forbidden"
 source_modules = ["src.controller"]
-forbidden_modules = ["src.repository", "src.pkg", "sqlalchemy"]
+forbidden_modules = ["src.repository", "src.gateway", "src.pkg", "sqlalchemy"]
 allow_indirect_imports = true
 
 [[tool.importlinter.contracts]]
@@ -98,6 +98,7 @@ forbidden_modules = [
     "src.controller",
     "src.di",
     "src.repository",
+    "src.gateway",
     "src.usecase",
     "src.entity",
 ]
