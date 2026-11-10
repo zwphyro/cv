@@ -6,13 +6,20 @@ from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict
 
-from src.entity.errors import AppError, NotFoundError
+from src.entity.errors import (
+    AppError,
+    ForbiddenError,
+    NotFoundError,
+    ServiceUnavailableError,
+)
 
 log = logging.getLogger(__name__)
 
 # every AppError subclass must inherit from one of these categories
 ERROR_STATUS: Final[Mapping[type[AppError], int]] = {
+    ForbiddenError: status.HTTP_403_FORBIDDEN,
     NotFoundError: status.HTTP_404_NOT_FOUND,
+    ServiceUnavailableError: status.HTTP_503_SERVICE_UNAVAILABLE,
 }
 
 

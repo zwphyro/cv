@@ -14,3 +14,19 @@ class NotFoundError(AppError):
 
 class RequestNotFoundError(NotFoundError):
     message = "Request not found"
+
+
+class ForbiddenError(AppError):
+    message = "Access denied"
+
+
+class CaptchaFailedError(ForbiddenError):
+    message = "Captcha verification failed"
+
+
+class ServiceUnavailableError(AppError):
+    message = "Service temporarily unavailable"
+
+
+class CaptchaUnavailableError(ServiceUnavailableError):
+    message = "Captcha verification is temporarily unavailable"

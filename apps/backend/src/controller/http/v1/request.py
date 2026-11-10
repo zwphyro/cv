@@ -1,6 +1,7 @@
+from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Header, status
 
 from src.controller.http.errors import error_responses
 from src.controller.http.v1.dto.request import (
@@ -9,20 +10,40 @@ from src.controller.http.v1.dto.request import (
     UpdateRequestRequest,
 )
 from src.di.usecase import RequestUsecaseDep
-from src.entity.errors import RequestNotFoundError
+from src.entity.errors import (
+    CaptchaFailedError,
+    CaptchaUnavailableError,
+    RequestNotFoundError,
+)
+
+CAPTCHA_TOKEN_MAX_LENGTH = 2048
 
 router = APIRouter()
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=RequestSchema)
+@router.post(
+    "/",
+    status_code=status.HTTP_201_CREATED,
+    response_model=RequestSchema,
+    responses=error_responses(CaptchaFailedError, CaptchaUnavailableError),
+)
 async def create_request(
     new_request: CreateRequestRequest,
+    captcha_token: Annotated[
+        str,
+        Header(
+            alias="X-Captcha-Token",
+            min_length=1,
+            max_length=CAPTCHA_TOKEN_MAX_LENGTH,
+        ),
+    ],
     usecase: RequestUsecaseDep,
 ):
     return await usecase.create_request(
         author=new_request.author,
         email=new_request.email,
         message=new_request.message,
+        captcha_token=captcha_token,
     )
 
 

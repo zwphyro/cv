@@ -2,8 +2,9 @@ import logging
 from typing import Unpack
 from uuid import UUID
 
-from src.entity.errors import RequestNotFoundError
+from src.entity.errors import CaptchaFailedError, RequestNotFoundError
 from src.entity.request import Request, RequestPatch
+from src.usecase.protocol.captcha import CaptchaVerifier
 from src.usecase.protocol.notifier import RequestNotifier
 from src.usecase.protocol.repository import RequestRepository
 from src.usecase.protocol.uow import UnitOfWork
@@ -17,12 +18,19 @@ class RequestUsecase:
         requests: RequestRepository,
         uow: UnitOfWork,
         notifier: RequestNotifier,
+        captcha: CaptchaVerifier,
     ):
         self._requests = requests
         self._uow = uow
         self._notifier = notifier
+        self._captcha = captcha
 
-    async def create_request(self, *, author: str, email: str, message: str):
+    async def create_request(
+        self, *, author: str, email: str, message: str, captcha_token: str
+    ):
+        if not await self._captcha.verify(captcha_token):
+            raise CaptchaFailedError
+
         request = Request(author=author, email=email, message=message)
         self._requests.add(request)
 
