@@ -21,6 +21,8 @@ class Settings(BaseSettings):
     tg_bot_token: SecretStr | None = Field(None, alias="BACKEND_TG_BOT_TOKEN")
     tg_chat_id: int | None = Field(None, alias="BACKEND_TG_CHAT_ID")
 
+    turnstile_secret_key: SecretStr = Field(..., alias="BACKEND_TURNSTILE_SECRET_KEY")
+
     model_config = SettingsConfigDict(
         env_file=os.path.join(BASE_DIR / ".env"),
         env_ignore_empty=True,
