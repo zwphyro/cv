@@ -41,6 +41,20 @@ You can fix most linting and formatting errors with the following command:
 uv run task lint-fix
 ```
 
+Creating a request requires a captcha token in the `X-Captcha-Token` header (see [Captcha](#captcha)). With the Cloudflare test secret key from [`.env.example`](./.env.example) any non-empty string passes:
+```bash
+curl -X POST http://localhost:8000/api/v1/requests/ \
+  -H "Content-Type: application/json" \
+  -H "X-Captcha-Token: test" \
+  -d '{"author": "John", "email": "john@example.com", "message": "Hello"}'
+```
+
+Cloudflare test secret keys:
+- `1x0000000000000000000000000000000AA` - always passes;
+- `2x0000000000000000000000000000000AA` - always fails.
+
+The verification is a real request to Cloudflare even with a test key, so creating a request needs internet access.
+
 ### Architecture
 
 The code is split into layers, dependencies point only inwards (to `entity`):
@@ -51,11 +65,12 @@ src/
 ├── config/              < settings, logging, CLI arguments
 ├── entity/              < ORM models, patch types and domain errors
 ├── usecase/             < business logic
-│   └── protocol/        < interfaces used by usecases (repositories, unit of work, notifiers)
+│   └── protocol/        < interfaces used by usecases (repositories, unit of work, notifiers, captcha)
 ├── repository/
 │   └── postgres/        < protocol implementations on SQLAlchemy
 ├── gateway/             < protocol implementations on external services
 │   ├── telegram/
+│   ├── turnstile/
 │   └── null/            < no-op implementations used when a service is not configured
 ├── controller/
 │   └── http/
@@ -85,6 +100,10 @@ Domain errors inherit from one of the categories in `entity/errors.py` (for exam
 
 Usecases notify about events through protocols (for example, `RequestNotifier.request_created`), the message format belongs to the implementation in `gateway/`. Notifications are sent after the commit, and a failed notification is only logged: the data is already saved and the request does not fail. When a service is not configured, `di` provides the no-op implementation from `gateway/null/`.
 
+#### Captcha
+
+`RequestUsecase.create_request` verifies the captcha token through the `CaptchaVerifier` protocol before saving the request, the implementation in `gateway/turnstile/` calls Cloudflare Turnstile. A rejected token raises `CaptchaFailedError` (403). If Cloudflare is unavailable, the gateway raises `CaptchaUnavailableError` (503): the request is rejected rather than saved without verification. The secret key is required, so the verification cannot be disabled by configuration. Use test keys for development and replace `CaptchaVerifier` with a fake (or override `get_captcha_verifier` in FastAPI) in tests.
+
 #### Adding a new resource
 
 1. Model in `entity/`, exported from `entity/__init__.py`, and errors in `entity/errors.py`.
@@ -113,6 +132,13 @@ The backend sends a message about every new request to a Telegram chat when `BAC
 3. Get the chat id from `https://api.telegram.org/bot<token>/getUpdates` (`message.chat.id`, group ids are negative) and use it as `BACKEND_TG_CHAT_ID`.
 
 Telegram API requests time out after 5 seconds, so an unavailable Telegram delays the response to a new request at most by this time.
+
+#### Cloudflare Turnstile
+
+1. Create a widget in the Cloudflare dashboard (Turnstile section) and add the site hostname to it.
+2. Use its secret key as `BACKEND_TURNSTILE_SECRET_KEY`. The site key is public and belongs to the frontend.
+
+Turnstile API requests time out after 5 seconds, after that the request is rejected with 503.
 
 ### Environment variables
 See [environment documentation](../../docs/environment.md) for a detailed overview of environment variables.
