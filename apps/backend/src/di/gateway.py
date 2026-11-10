@@ -2,9 +2,11 @@ from typing import Annotated
 
 from fastapi import Depends
 
-from src.di.infra import BotDep, SettingsDep
+from src.di.infra import BotDep, SettingsDep, TurnstileDep
 from src.gateway.null.request import NullRequestNotifier
 from src.gateway.telegram.request import TelegramRequestNotifier
+from src.gateway.turnstile.captcha import TurnstileCaptchaVerifier
+from src.usecase.protocol.captcha import CaptchaVerifier
 from src.usecase.protocol.notifier import RequestNotifier
 
 
@@ -16,3 +18,10 @@ def get_request_notifier(bot: BotDep, settings: SettingsDep) -> RequestNotifier:
 
 
 RequestNotifierDep = Annotated[RequestNotifier, Depends(get_request_notifier)]
+
+
+def get_captcha_verifier(turnstile: TurnstileDep) -> CaptchaVerifier:
+    return TurnstileCaptchaVerifier(turnstile)
+
+
+CaptchaVerifierDep = Annotated[CaptchaVerifier, Depends(get_captcha_verifier)]
