@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.config.settings import Settings, get_settings
 from src.pkg.postgres.database import Database
+from src.pkg.turnstile.client import TurnstileClient
 from src.repository.postgres.uow import PostgresUnitOfWork
 from src.usecase.protocol.uow import UnitOfWork
 
@@ -24,6 +25,13 @@ def get_bot(request: Request):
 
 
 BotDep = Annotated[Bot | None, Depends(get_bot)]
+
+
+def get_turnstile(request: Request):
+    return request.app.state.turnstile
+
+
+TurnstileDep = Annotated[TurnstileClient, Depends(get_turnstile)]
 
 
 async def get_session(database: DatabaseDep):

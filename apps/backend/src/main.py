@@ -8,17 +8,25 @@ from src.controller.http.internal import router as internal_router
 from src.controller.http.v1.router import router
 from src.pkg.postgres.database import Database
 from src.pkg.telegram.bot import create_bot
+from src.pkg.turnstile.client import TurnstileClient
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     settings = get_settings()
+
     database = Database(settings.db_url)
+
     token = settings.tg_bot_token
     bot = create_bot(token.get_secret_value()) if token else None
+
+    turnstile = TurnstileClient(settings.turnstile_secret_key.get_secret_value())
+
     app.state.database = database
     app.state.bot = bot
+    app.state.turnstile = turnstile
     yield
+    await turnstile.close()
     if bot:
         await bot.session.close()
     await database.dispose()
