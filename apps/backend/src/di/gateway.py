@@ -3,8 +3,8 @@ from typing import Annotated
 from fastapi import Depends
 
 from src.di.infra import BotDep, SettingsDep, TurnstileDep
-from src.gateway.null.request import NullRequestNotifier
-from src.gateway.telegram.request import TelegramRequestNotifier
+from src.gateway.null.notifier import NullRequestNotifier
+from src.gateway.telegram.notifier import TelegramRequestNotifier
 from src.gateway.turnstile.captcha import TurnstileCaptchaVerifier
 from src.usecase.protocol.captcha import CaptchaVerifier
 from src.usecase.protocol.notifier import RequestNotifier
