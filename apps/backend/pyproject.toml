@@ -105,6 +105,12 @@ forbidden_modules = ["src.repository", "src.gateway", "src.pkg", "sqlalchemy"]
 allow_indirect_imports = true
 
 [[tool.importlinter.contracts]]
+name = "Implementations do not depend on the web framework"
+type = "forbidden"
+source_modules = ["src.repository", "src.gateway"]
+forbidden_modules = ["fastapi", "starlette"]
+
+[[tool.importlinter.contracts]]
 name = "Pkg is standalone"
 type = "forbidden"
 source_modules = ["src.pkg"]

@@ -1,4 +1,3 @@
-import logging
 from typing import Unpack
 from uuid import UUID
 
@@ -8,8 +7,6 @@ from src.usecase.protocol.captcha import CaptchaVerifier
 from src.usecase.protocol.notifier import RequestNotifier
 from src.usecase.protocol.repository import RequestRepository
 from src.usecase.protocol.uow import UnitOfWork
-
-log = logging.getLogger(__name__)
 
 
 class RequestUsecase:
@@ -36,11 +33,7 @@ class RequestUsecase:
 
         await self._uow.commit()
 
-        try:
-            await self._notifier.request_created(request)
-        except Exception:
-            # the request is already saved, a failed notification must not fail it
-            log.exception("Failed to notify about request %s", request.id)
+        await self._notifier.request_created(request)
 
         return request
 
