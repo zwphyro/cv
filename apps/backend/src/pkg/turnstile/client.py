@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from typing import Final
 
 import httpx
@@ -24,7 +25,9 @@ class TurnstileClient:
             payload["remoteip"] = remote_ip
 
         response = await self._http.post(SITEVERIFY_URL, json=payload)
-        response.raise_for_status()
+        # invalid input, including the secret, is reported as 400 with error codes
+        if response.status_code != HTTPStatus.BAD_REQUEST:
+            response.raise_for_status()
         return SiteverifyResult.model_validate_json(response.content)
 
     async def close(self):
