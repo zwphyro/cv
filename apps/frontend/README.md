@@ -54,4 +54,3 @@ The image is a multi-stage build on top of Next's `output: "standalone"`: depend
 See [environment documentation](../../docs/environment.md) for a detailed overview of environment variables.
 
 List of used environment variables available in [`.env.example`](./.env.example) file.
-

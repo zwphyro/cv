@@ -2,7 +2,7 @@
 Detailed overview of environment variables.
 
 ### Compose
-| Variable | Used by | Required | Default | GitHub | Description |
+| Variable | Used by | Required | Default | GitHub | Comment |
 |---|---|---|---|---|---|
 | `COMPOSE_PROFILES` | compose | No | empty | - | Compose profiles to start. `dev` adds the dev-only RustFS. |
 
@@ -24,9 +24,14 @@ Detailed overview of environment variables.
 ### Backend
 | Variable | Used by | Required | Default | GitHub | Comment |
 |---|---|---|---|---|---|
+| `BACKEND_PORT` | compose | No | `8000` | var | |
 | `BACKEND_DB_NAME` | backend, postgres | Yes | - | var | |
 | `BACKEND_DB_USER` | backend, postgres | Yes | - | var | |
 | `BACKEND_DB_PASSWORD` | backend, postgres | Yes | - | secret | |
+| `BACKEND_LOG_LEVEL` | backend | No | `INFO` | var | |
+| `BACKEND_TG_BOT_TOKEN` | backend | No | - | secret | Telegram bot token used to send notifications about new requests. Notifications are disabled when empty. |
+| `BACKEND_TG_CHAT_ID` | backend | No | - | var | Telegram chat to send notifications to. BACKEND_TG_BOT_TOKEN and BACKEND_TG_CHAT_ID must be specified or unspecified simultaneously |
+| `BACKEND_TURNSTILE_SECRET_KEY` | backend | Yes | - | secret | Cloudflare Turnstile secret key used to verify captcha tokens of new requests. Use test key `1x0000000000000000000000000000000AA` (always passes) or `2x0000000000000000000000000000000AA` (always fails) for development, both accept any token. |
 
 
 ### Postgres
@@ -35,7 +40,7 @@ At first startup Postgres runs [initialization script](../infra/postgres/init.sh
 | Variable | Used by | Required | Default | GitHub | Comment |
 |---|---|---|---|---|---|
 | `POSTGRES_USER` | postgres | Yes | - | var | Admin (superuser). Used only by the Postgres container to create the databases and roles, the apps never connect with it. |
-| `POSTGRES_PASSWORD` | postgres, postgres | Yes | - | secret | |
+| `POSTGRES_PASSWORD` | postgres | Yes | - | secret | |
 | `POSTGRES_PORT` | compose | No | `5432` | var | |
 
 #### RustFS & S3
