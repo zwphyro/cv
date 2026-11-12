@@ -1,0 +1,15 @@
+@use "breakpoints";
+
+$container-width: 1240px;
+$gutter: clamp(20px, 4vw, 32px);
+$gutter-mobile: 20px;
+
+@mixin container {
+  max-width: $container-width;
+  margin: 0 auto;
+  padding-inline: $gutter;
+
+  @include breakpoints.mobile {
+    padding-inline: $gutter-mobile;
+  }
+}

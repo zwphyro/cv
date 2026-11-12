@@ -1,0 +1,4 @@
+// JetBrains Mono otherwise joins "->" into a single arrow glyph
+@mixin no-ligatures {
+  font-variant-ligatures: none;
+}
