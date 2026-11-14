@@ -12,6 +12,9 @@ import { SectionHeading } from "@/components/ui/SectionHeading/SectionHeading";
 import { Spinner } from "@/components/ui/Spinner/Spinner";
 import { StatusDot } from "@/components/ui/StatusDot/StatusDot";
 import { TextBar } from "@/components/ui/TextBar/TextBar";
+import { DEFAULT_LOCALE } from "@/i18n/locales";
+import { getStrings } from "@/i18n/strings";
+import { fillTemplate } from "@/i18n/template";
 
 import styles from "./page.module.scss";
 
@@ -19,6 +22,8 @@ const BUTTON_SIZES = ["lg", "md", "sm"] as const;
 
 export default function UiPlaygroundPage() {
   if (process.env.NODE_ENV === "production") notFound();
+
+  const { contactForm, skills } = getStrings(DEFAULT_LOCALE);
 
   return (
     <main className={styles.page}>
@@ -80,7 +85,7 @@ export default function UiPlaygroundPage() {
             cells={0}
             total={14}
           />
-          {" 0 / 14"}
+          {` ${fillTemplate(skills.since, { year: 2026 })}`}
         </span>
         <span>
           <TextBar
@@ -148,21 +153,21 @@ export default function UiPlaygroundPage() {
           className={styles.column}
         >
           <TextField
-            label="Name"
+            label={contactForm.nameLabel}
             autoComplete="name"
           />
           <TextField
-            label="Email"
+            label={contactForm.emailLabel}
             type="email"
             defaultValue="not-an-email"
-            error="Enter a valid email address"
+            error={contactForm.emailInvalid}
           />
-          <TextArea label="Message" />
+          <TextArea label={contactForm.messageLabel} />
           <Button
             type="submit"
             className={styles.submit}
           >
-            Send message
+            {contactForm.submit}
           </Button>
         </form>
       </FramedBox>

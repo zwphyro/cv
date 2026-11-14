@@ -3,6 +3,9 @@ import "@/styles/globals.scss";
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 
+import { StringsProvider } from "@/components/StringsProvider/StringsProvider";
+import { DEFAULT_LOCALE, getLocaleDescriptor } from "@/i18n/locales";
+import { getStrings } from "@/i18n/strings";
 import { DEFAULT_THEME } from "@/theme/themes";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -17,14 +20,18 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  const locale = DEFAULT_LOCALE;
+
   return (
     <html
-      lang="en"
+      lang={getLocaleDescriptor(locale).htmlLang}
       data-theme={DEFAULT_THEME}
       data-scroll-behavior="smooth"
       className={jetbrainsMono.variable}
     >
-      <body>{children}</body>
+      <body>
+        <StringsProvider strings={getStrings(locale)}>{children}</StringsProvider>
+      </body>
     </html>
   );
 }
