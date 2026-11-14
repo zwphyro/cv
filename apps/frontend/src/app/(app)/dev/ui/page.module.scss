@@ -1,0 +1,64 @@
+@use "layout";
+
+.page {
+  @include layout.container;
+
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-block: 48px 96px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.caption {
+  width: 64px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ok {
+  color: var(--ok);
+}
+
+.status {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.headerCursor {
+  width: 9px;
+  height: 18px;
+}
+
+.title {
+  color: var(--text-strong);
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 700;
+  line-height: 1.02;
+}
+
+.titleCursor {
+  width: 0.5em;
+  height: 0.82em;
+  margin-left: 0.08em;
+  vertical-align: -0.06em;
+}
+
+.box {
+  padding: 32px 24px 24px;
+}
+
+.submit {
+  align-self: flex-start;
+}

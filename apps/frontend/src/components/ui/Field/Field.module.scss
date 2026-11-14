@@ -1,0 +1,53 @@
+@use "breakpoints";
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  color: var(--text-2);
+  font-size: 13px;
+}
+
+.control {
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: var(--bg);
+  color: var(--text-strong);
+  font-size: 15px;
+
+  &:focus {
+    border-color: var(--accent);
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  &[aria-invalid="true"] {
+    border-color: var(--error);
+  }
+
+  @include breakpoints.mobile {
+    min-height: 50px;
+    font-size: 16px;
+  }
+}
+
+.multiline {
+  min-height: auto;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.error {
+  margin: 0;
+  color: var(--error);
+  font-size: 13px;
+}

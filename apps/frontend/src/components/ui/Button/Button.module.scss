@@ -1,0 +1,78 @@
+@use "breakpoints";
+
+.button {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.primary {
+  border: none;
+  background: var(--accent);
+  font-weight: 700;
+
+  &,
+  &:hover {
+    color: var(--on-accent);
+  }
+}
+
+.ghost {
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+
+  &,
+  &:hover {
+    color: var(--text);
+  }
+
+  &[aria-expanded="true"] {
+    border-color: var(--accent);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--accent);
+    }
+  }
+}
+
+.lg {
+  min-height: 48px;
+  padding: 0 22px;
+  font-size: 15px;
+
+  @include breakpoints.mobile {
+    min-height: 52px;
+  }
+}
+
+.md {
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 14px;
+
+  @include breakpoints.mobile {
+    min-height: 48px;
+  }
+}
+
+.sm {
+  min-height: 32px;
+  padding: 0 10px;
+  font-size: 12px;
+
+  &.ghost,
+  &.ghost:hover {
+    color: var(--text-2);
+  }
+
+  @include breakpoints.mobile {
+    min-width: 72px;
+    min-height: 44px;
+    padding: 0 12px;
+  }
+}

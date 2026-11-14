@@ -2,10 +2,10 @@
 
 import { useRef } from "react";
 
+import { TextBar } from "@/components/ui/TextBar/TextBar";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 
 import styles from "./RevealBar.module.scss";
-import { textBar } from "./textBar";
 
 interface RevealBarProps {
   label: string;
@@ -21,7 +21,10 @@ export function RevealBar({ label }: RevealBarProps) {
       className={styles.row}
     >
       {`${label} `}
-      <span className={styles.bar}>{textBar(progress, 14)}</span>
+      <TextBar
+        cells={progress * 14}
+        total={14}
+      />
       {` ${progress.toFixed(2)}`}
     </p>
   );

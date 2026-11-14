@@ -1,0 +1,19 @@
+.cursor {
+  display: inline-block;
+  flex: none;
+  background: var(--accent);
+}
+
+.blinking {
+  animation: blink 1.06s steps(1) infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
