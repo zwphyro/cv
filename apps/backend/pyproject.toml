@@ -18,7 +18,7 @@ dev = [
     "taskipy>=1.14.1",
     "basedpyright>=1.40.2",
     "import-linter>=2.16",
-    "ruff>=0.17.4",
+    "ruff>=0.17.5",
 ]
 
 [tool.taskipy.tasks]
