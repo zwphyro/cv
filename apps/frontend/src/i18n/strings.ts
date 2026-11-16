@@ -19,6 +19,9 @@ export interface UiStrings {
     since: string;
     also: string;
   };
+  experience: {
+    present: string;
+  };
   contactForm: {
     nameLabel: string;
     emailLabel: string;
@@ -64,6 +67,9 @@ const en: UiStrings = {
   skills: {
     since: "since {year}",
     also: "Also:",
+  },
+  experience: {
+    present: "Present",
   },
   contactForm: {
     nameLabel: "Name",

@@ -1,15 +1,18 @@
 import { postgresAdapter } from "@payloadcms/db-postgres";
-import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { s3Storage } from "@payloadcms/storage-s3";
 import path from "path";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
 
+import { textEditor } from "@/cms/editors";
+import { DEFAULT_LOCALE, LOCALES } from "@/i18n/locales";
 import { env } from "@/lib/env";
 
 import { Media } from "./collections/Media";
 import { Users } from "./collections/Users";
+import { Homepage } from "./globals/Homepage/Homepage";
+import { Site } from "./globals/Site";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -22,7 +25,13 @@ export default buildConfig({
     },
   },
   collections: [Users, Media],
-  editor: lexicalEditor(),
+  globals: [Site, Homepage],
+  editor: textEditor,
+  localization: {
+    locales: LOCALES.map(({ code, label }) => ({ code, label })),
+    defaultLocale: DEFAULT_LOCALE,
+    fallback: true,
+  },
   secret: env.CMS_SECRET,
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),

@@ -1,0 +1,12 @@
+@use "layout";
+
+.page {
+  @include layout.container;
+
+  padding-block: 48px;
+}
+
+.dump {
+  overflow-x: auto;
+  font-size: 12px;
+}
