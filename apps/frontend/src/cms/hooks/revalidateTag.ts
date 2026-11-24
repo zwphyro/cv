@@ -1,13 +1,11 @@
 import { revalidateTag as nextRevalidateTag } from "next/cache";
-import type { PayloadRequest } from "payload";
+import type { RequestContext } from "payload";
+
+export const SKIP_REVALIDATION = "skipRevalidation";
 
 export function revalidateTag(tag: string) {
-  return ({ req }: { req: PayloadRequest }) => {
-    try {
-      nextRevalidateTag(tag, { expire: 0 });
-    } catch (error) {
-      // Saves made outside Next.js (seed, CLI scripts) have no cache to clear
-      req.payload.logger.warn(`Skipped revalidating "${tag}": ${String(error)}`);
-    }
+  return ({ context }: { context: RequestContext }) => {
+    if (context[SKIP_REVALIDATION]) return;
+    nextRevalidateTag(tag, { expire: 0 });
   };
 }

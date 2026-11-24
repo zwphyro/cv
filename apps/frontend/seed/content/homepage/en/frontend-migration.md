@@ -1,0 +1,2 @@
+- Rewrote a Lit frontend in React with an API client generated from the OpenAPI specification.
+- Built a reusable UI component library on shadcn/ui and Tailwind CSS.

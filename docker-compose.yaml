@@ -56,6 +56,24 @@ services:
       retries: 5
     restart: always
     depends_on:
+      frontend_seed:
+        condition: service_completed_successfully
+    networks:
+      - default_network
+    logging: *default-logging
+
+  frontend_seed:
+    container_name: frontend_seed
+    image: cv_frontend_seed
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+      target: seed
+    environment:
+      <<: *frontend-env
+      CMS_SEED_ENABLED: ${CMS_SEED_ENABLED:-false}
+    restart: "no"
+    depends_on:
       frontend_migrate:
         condition: service_completed_successfully
       s3_init:

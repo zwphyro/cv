@@ -20,6 +20,7 @@ Detailed overview of environment variables.
 | `CMS_SECRET` | cms | Yes | - | secret | Secret Payload uses to sign and encrypt auth tokens/cookies. |
 | `CMS_ADMIN_EMAIL` | cms | No | - | secret | Used to create admin account automatically. |
 | `CMS_ADMIN_PASSWORD` | cms | No | - | secret | CMS_ADMIN_EMAIL and CMS_ADMIN_PASSWORD must be specified or unspecified simultaneously |
+| `CMS_SEED_ENABLED` | cms seed | No | `false` | var | `true` overwrites the `site` and `homepage` globals with the content from `apps/frontend/seed` on start. Edits made in the admin are lost. |
 
 ### Backend
 | Variable | Used by | Required | Default | GitHub | Comment |
