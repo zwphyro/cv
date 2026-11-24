@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.routing import APIRoute
 
 from src.config.settings import get_settings
 from src.controller.http.errors import register_error_handlers
@@ -32,8 +33,16 @@ async def lifespan(app: FastAPI):
     await database.dispose()
 
 
+def operation_id(route: APIRoute):
+    return route.name
+
+
 def create_app():
-    app = FastAPI(title="Requests API", lifespan=lifespan)
+    app = FastAPI(
+        title="Requests API",
+        lifespan=lifespan,
+        generate_unique_id_function=operation_id,
+    )
     app.include_router(internal_router)
     app.include_router(router)
     register_error_handlers(app)

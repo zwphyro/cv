@@ -41,6 +41,13 @@ You can fix most linting and formatting errors with the following command:
 uv run task lint-fix
 ```
 
+The OpenAPI schema is committed to [`openapi.json`](./openapi.json): the frontend generates its API client from it. After changing routes or DTOs, export it again with the following command (no server or environment is needed):
+```bash
+uv run task openapi
+```
+
+The `operationId` of every route is the name of its function (`create_request`, `list_requests`, ...), so renaming a route function changes the API contract for the frontend.
+
 Creating a request requires a captcha token in the `X-Captcha-Token` header (see [Captcha](#captcha)). With the Cloudflare test secret key from [`.env.example`](./.env.example) any non-empty string passes:
 ```bash
 curl -X POST http://localhost:8000/api/v1/requests/ \
@@ -112,6 +119,7 @@ Usecases notify about events through protocols (for example, `RequestNotifier.re
 4. Providers in `di/repository.py`, `di/gateway.py` and `di/usecase.py`.
 5. DTOs and routes in `controller/http/v1/`, router included in `controller/http/v1/router.py`.
 6. Migration with `uv run task migrate-revision "<message>"`.
+7. OpenAPI schema with `uv run task openapi`.
 
 ### Production
 

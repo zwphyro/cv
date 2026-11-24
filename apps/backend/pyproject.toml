@@ -23,6 +23,7 @@ dev = [
 
 [tool.taskipy.tasks]
 start = "python -m command.run"
+openapi = "python -m command.export_openapi"
 
 migrate-to-head = "alembic upgrade head"
 migrate-to = "alembic upgrade"
