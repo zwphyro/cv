@@ -3,6 +3,7 @@ import "@/styles/globals.scss";
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 
+import { QueryProvider } from "@/components/QueryProvider/QueryProvider";
 import { StringsProvider } from "@/components/StringsProvider/StringsProvider";
 import { DEFAULT_LOCALE, getLocaleDescriptor } from "@/i18n/locales";
 import { getStrings } from "@/i18n/strings";
@@ -30,7 +31,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={jetbrainsMono.variable}
     >
       <body>
-        <StringsProvider strings={getStrings(locale)}>{children}</StringsProvider>
+        <StringsProvider strings={getStrings(locale)}>
+          <QueryProvider>
+            {children}
+          </QueryProvider>
+        </StringsProvider>
       </body>
     </html>
   );

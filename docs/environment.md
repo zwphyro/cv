@@ -10,6 +10,7 @@ Detailed overview of environment variables.
 | Variable | Used by | Required | Default | GitHub | Comment |
 |---|---|---|---|---|---|
 | `FRONTEND_PORT` | compose | No | `3000` | var | |
+| `BACKEND_INTERNAL_URL` | frontend | Yes | `http://backend:8000` in compose | - | Backend address reachable from the frontend server, never from the browser. Set by compose; needed in `apps/frontend/.env` only for local development. |
 
 ### CMS
 | Variable | Used by | Required | Default | GitHub | Comment |
