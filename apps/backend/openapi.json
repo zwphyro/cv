@@ -5,7 +5,7 @@
     "version": "0.1.0"
   },
   "paths": {
-    "/api/v1/requests/": {
+    "/api/v1/requests": {
       "post": {
         "tags": [
           "Requests"

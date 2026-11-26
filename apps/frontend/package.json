@@ -17,7 +17,7 @@
     "migrate:status": "payload migrate:status",
     "seed": "payload run seed/seed.ts",
     "seed:check": "payload run seed/check.ts",
-    "openapi:update": "openapi-typescript ../backend/openapi.json -o src/lib/api/v1.d.ts"
+    "openapi:update": "openapi-typescript ../backend/openapi.json -o src/lib/api/v1.d.ts && node scripts/generate-proxy-routes.mjs"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.93.0",

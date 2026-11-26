@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button/Button";
 import { browserApi } from "@/lib/api/browserApi";
 
 export function TestRequestButton() {
-  const createRequest = browserApi.query.useMutation("post", "/api/v1/requests/");
+  const createRequest = browserApi.query.useMutation("post", "/api/v1/requests");
 
   const send = () => {
     createRequest.mutate({

@@ -3,7 +3,7 @@ from pathlib import Path
 
 from src.main import create_app
 
-OPENAPI_PATH = Path(__file__).resolve().parent / "openapi.json"
+OPENAPI_PATH = Path(__file__).resolve().parents[1] / "openapi.json"
 
 if __name__ == "__main__":
     schema = create_app().openapi()

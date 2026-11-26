@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/api/v1/requests/": {
+    "/api/v1/requests": {
         parameters: {
             query?: never;
             header?: never;
