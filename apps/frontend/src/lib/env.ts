@@ -28,6 +28,8 @@ const schema = z
     S3_SECRET_ACCESS_KEY: required,
     BACKEND_INTERNAL_URL: z.url({ protocol: /^https?$/, error: "must be an http(s) URL" }),
     TURNSTILE_SITE_KEY: required,
+    FRONTEND_PUBLIC_URL: blankAsUndefined(z.url({ protocol: /^https?$/, error: "must be an http(s) URL" }).optional()),
+    FRONTEND_INDEXING_ENABLED: z.string().optional().transform((value) => value === "true"),
   })
   .refine((env) => Boolean(env.CMS_ADMIN_EMAIL) === Boolean(env.CMS_ADMIN_PASSWORD), {
     message: "CMS_ADMIN_EMAIL and CMS_ADMIN_PASSWORD must be set together",

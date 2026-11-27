@@ -49,22 +49,23 @@ export function MobileMenu({ name, sections, quickContacts }: MobileMenuProps) {
         onClose={handleClose}
       >
         <div className={styles.content}>
-          <MenuBar
-            name={name}
-            linked={false}
-            className={styles.bar}
-            action={(
-              <Button
-                variant="ghost"
-                size="sm"
-                aria-expanded
-                aria-controls={dialogId}
-                onClick={close}
-              >
-                {header.closeMenu}
-              </Button>
-            )}
-          />
+          <div className={styles.bar}>
+            <MenuBar
+              name={name}
+              linked={false}
+              action={(
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  aria-expanded
+                  aria-controls={dialogId}
+                  onClick={close}
+                >
+                  {header.closeMenu}
+                </Button>
+              )}
+            />
+          </div>
           <MenuNav
             sections={sections}
             onNavigate={close}

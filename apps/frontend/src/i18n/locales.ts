@@ -1,11 +1,12 @@
 export interface LocaleDescriptor {
   code: string;
   htmlLang: string;
+  ogLocale: string;
   label: string;
 }
 
 export const LOCALES = [
-  { code: "en", htmlLang: "en", label: "English" },
+  { code: "en", htmlLang: "en", ogLocale: "en_US", label: "English" },
 ] as const satisfies readonly LocaleDescriptor[];
 
 export type Locale = (typeof LOCALES)[number]["code"];

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { connection } from "next/server";
 
 import { AsciiTorus } from "@/components/AsciiTorus/AsciiTorus";
@@ -15,9 +16,15 @@ import { getSite } from "@/lib/cms/getSite";
 import { getQuickContacts } from "@/lib/contacts";
 import { getCvFile } from "@/lib/cvFile";
 import { env } from "@/lib/env";
+import { buildPageMetadata } from "@/lib/pageMetadata";
 import { getNavSections } from "@/lib/sections";
 
 import styles from "./page.module.scss";
+
+export async function generateMetadata(): Promise<Metadata> {
+  await connection();
+  return buildPageMetadata(await getSite(DEFAULT_LOCALE), DEFAULT_LOCALE);
+}
 
 export default async function Home() {
   await connection();

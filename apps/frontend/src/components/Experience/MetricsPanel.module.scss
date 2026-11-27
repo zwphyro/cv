@@ -28,7 +28,7 @@
   font-size: 14px;
 
   @include breakpoints.mobile {
-    flex-direction: column;
+    flex-flow: column nowrap;
   }
 }
 

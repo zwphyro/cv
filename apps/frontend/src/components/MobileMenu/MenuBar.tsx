@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 
 import { Brand } from "@/components/Header/Brand";
 import { ScrollProgress } from "@/components/Header/ScrollProgress";
-import { cx } from "@/lib/cx";
 
 import styles from "./MenuBar.module.scss";
 
@@ -10,12 +9,11 @@ interface MenuBarProps {
   name: string;
   linked: boolean;
   action: ReactNode;
-  className?: string;
 }
 
-export function MenuBar({ name, linked, action, className }: MenuBarProps) {
+export function MenuBar({ name, linked, action }: MenuBarProps) {
   return (
-    <div className={cx(styles.bar, className)}>
+    <div className={styles.bar}>
       <Brand
         name={name}
         linked={linked}

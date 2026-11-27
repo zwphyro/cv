@@ -10,6 +10,8 @@ Detailed overview of environment variables.
 | Variable | Used by | Required | Default | GitHub | Comment |
 |---|---|---|---|---|---|
 | `FRONTEND_PORT` | compose | No | `3000` | var | |
+| `FRONTEND_PUBLIC_URL` | frontend | No | - | var | Public address of the site, e.g. `https://example.com`. Used for absolute links in link previews, the canonical URL and the sitemap; without it they are left out. |
+| `FRONTEND_INDEXING_ENABLED` | frontend | No | `false` | var | Only `true` lets search engines index the site. Otherwise `robots.txt` disallows everything, the page is `noindex` and the sitemap is empty. Enable it in production only. |
 | `TURNSTILE_SITE_KEY` | frontend | Yes | - | var | Cloudflare Turnstile site key of the contact form. Use test key `1x00000000000000000000AA` (always passes, invisible) or `3x00000000000000000000FF` (forces an interactive challenge) for development. |
 | `BACKEND_INTERNAL_URL` | frontend | Yes | `http://backend:8000` in compose | - | Backend address reachable from the frontend server, never from the browser. Set by compose; needed in `apps/frontend/.env` only for local development. |
 

@@ -43,7 +43,7 @@
   gap: 12px;
 
   @include breakpoints.mobile {
-    flex-direction: column;
+    flex-flow: column nowrap;
     gap: 10px;
   }
 }

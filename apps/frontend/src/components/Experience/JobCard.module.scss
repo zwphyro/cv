@@ -18,7 +18,7 @@
   justify-content: space-between;
 
   @include breakpoints.mobile {
-    flex-direction: column;
+    flex-flow: column nowrap;
     gap: 2px;
   }
 }
