@@ -1,6 +1,7 @@
 import { connection } from "next/server";
 
 import { AsciiTorus } from "@/components/AsciiTorus/AsciiTorus";
+import { Education } from "@/components/Education/Education";
 import { Experience } from "@/components/Experience/Experience";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
@@ -52,7 +53,12 @@ export default async function Home() {
             locale={locale}
             presentLabel={strings.experience.present}
           />
-          {SECTION_IDS.filter((id) => id !== "skills" && id !== "experience").map((id) => (
+          <Education
+            education={homepage.education}
+            locale={locale}
+            presentLabel={strings.experience.present}
+          />
+          {SECTION_IDS.filter((id) => id === "contact").map((id) => (
             <Section
               key={id}
               id={id}
