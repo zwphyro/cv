@@ -1,0 +1,30 @@
+@use "breakpoints";
+
+.heading {
+  margin-bottom: 12px;
+
+  @include breakpoints.mobile {
+    margin-bottom: 10px;
+  }
+}
+
+.intro {
+  margin: 0 0 40px;
+  color: var(--muted);
+  font-size: 14px;
+
+  @include breakpoints.mobile {
+    margin-bottom: 32px;
+    font-size: 13px;
+  }
+}
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+
+  @include breakpoints.mobile {
+    gap: 32px;
+  }
+}

@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import { Hero } from "@/components/Hero/Hero";
 import { Section } from "@/components/Section/Section";
+import { Skills } from "@/components/Skills/Skills";
 import { DEFAULT_LOCALE } from "@/i18n/locales";
 import { getStrings } from "@/i18n/strings";
 import { getHomepage } from "@/lib/cms/getHomepage";
@@ -40,7 +41,11 @@ export default async function Home() {
             cv={getCvFile(site)}
             strings={getStrings(locale).hero}
           />
-          {SECTION_IDS.map((id) => (
+          <Skills
+            skills={homepage.skills}
+            strings={getStrings(locale).skills}
+          />
+          {SECTION_IDS.filter((id) => id !== "skills").map((id) => (
             <Section
               key={id}
               id={id}
