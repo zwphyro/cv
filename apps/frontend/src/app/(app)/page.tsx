@@ -1,5 +1,6 @@
 import { connection } from "next/server";
 
+import { AsciiTorus } from "@/components/AsciiTorus/AsciiTorus";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import { Hero } from "@/components/Hero/Hero";
@@ -50,7 +51,11 @@ export default async function Home() {
         <aside
           aria-hidden="true"
           className={styles.aside}
-        />
+        >
+          <div className={styles.asideInner}>
+            <AsciiTorus variant="desktop" />
+          </div>
+        </aside>
       </div>
       <Footer
         name={site.name}

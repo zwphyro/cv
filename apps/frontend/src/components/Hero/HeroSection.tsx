@@ -2,6 +2,8 @@
 
 import { type ReactNode, useRef } from "react";
 
+import { AsciiTorus } from "@/components/AsciiTorus/AsciiTorus";
+
 import { buildBaseGrid } from "./dotGrid";
 import styles from "./HeroSection.module.scss";
 import { useDotTrail } from "./useDotTrail";
@@ -40,6 +42,10 @@ export function HeroSection({ titleId, children, below }: HeroSectionProps) {
         >
           {trail.frame}
         </pre>
+        <AsciiTorus
+          variant="mobile"
+          className={styles.torus}
+        />
         <div className={styles.content}>{children}</div>
       </div>
       {below}

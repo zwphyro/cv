@@ -51,6 +51,17 @@
   }
 }
 
+.torus {
+  display: none;
+
+  @include breakpoints.mobile {
+    position: absolute;
+    top: 24px;
+    right: -120px;
+    display: block;
+  }
+}
+
 .content {
   position: relative;
   display: flex;
