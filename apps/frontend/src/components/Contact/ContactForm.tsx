@@ -70,28 +70,30 @@ export function ContactForm({ titleId, successMessage, turnstileSiteKey }: Conta
             />
           )}
         </form.Field>
-        {turnstile.active ? (
-          <ContactTurnstile
-            siteKey={turnstileSiteKey}
-            {...turnstile.widgetProps}
-          />
-        ) : null}
-        {submitError ? (
-          <p
-            role="alert"
-            className={styles.error}
+        <div className={styles.actions}>
+          {turnstile.active ? (
+            <ContactTurnstile
+              siteKey={turnstileSiteKey}
+              {...turnstile.widgetProps}
+            />
+          ) : null}
+          {submitError ? (
+            <p
+              role="alert"
+              className={styles.error}
+            >
+              <span aria-hidden="true">✗</span>
+              {` ${submitError}`}
+            </p>
+          ) : null}
+          <Button
+            type="submit"
+            disabled={phase === "verifying"}
+            className={styles.submit}
           >
-            <span aria-hidden="true">✗</span>
-            {` ${submitError}`}
-          </p>
-        ) : null}
-        <Button
-          type="submit"
-          disabled={phase === "verifying"}
-          className={styles.submit}
-        >
-          {strings.submit}
-        </Button>
+            {strings.submit}
+          </Button>
+        </div>
       </form>
       {phase === "sending" ? <SendingStatus text={strings.sending} /> : null}
       {phase === "sent" ? (

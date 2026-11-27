@@ -6,6 +6,13 @@
   gap: 6px;
 }
 
+.header {
+  display: flex;
+  gap: 4px 12px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
 .label {
   color: var(--text-2);
   font-size: 13px;
@@ -27,7 +34,7 @@
 
   &:focus-visible {
     outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline-offset: -5px;
   }
 
   &[aria-invalid="true"] {
@@ -50,4 +57,5 @@
   margin: 0;
   color: var(--error);
   font-size: 13px;
+  text-align: right;
 }

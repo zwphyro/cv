@@ -16,21 +16,23 @@ interface FieldProps {
 export function Field({ label, controlId, error, errorId, className, children }: FieldProps) {
   return (
     <div className={cx(styles.field, className)}>
-      <label
-        htmlFor={controlId}
-        className={styles.label}
-      >
-        {label}
-      </label>
-      {children}
-      {error ? (
-        <p
-          id={errorId}
-          className={styles.error}
+      <div className={styles.header}>
+        <label
+          htmlFor={controlId}
+          className={styles.label}
         >
-          {error}
-        </p>
-      ) : null}
+          {label}
+        </label>
+        {error ? (
+          <p
+            id={errorId}
+            className={styles.error}
+          >
+            {error}
+          </p>
+        ) : null}
+      </div>
+      {children}
     </div>
   );
 }

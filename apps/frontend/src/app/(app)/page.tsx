@@ -34,10 +34,7 @@ export default async function Home() {
         sections={getNavSections(homepage)}
         quickContacts={getQuickContacts(contacts)}
       />
-      <div
-        id="top"
-        className={styles.layout}
-      >
+      <div className={styles.layout}>
         <main className={styles.main}>
           <Hero
             hero={homepage.hero}

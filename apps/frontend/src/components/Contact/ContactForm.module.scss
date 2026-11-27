@@ -14,8 +14,13 @@
   }
 }
 
+.actions {
+  display: flex;
+  flex-direction: column;
+}
+
 .error {
-  margin: 0;
+  margin: 0 0 12px;
   color: var(--error);
   font-size: 14px;
 }
