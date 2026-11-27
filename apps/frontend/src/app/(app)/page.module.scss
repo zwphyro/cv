@@ -1,0 +1,30 @@
+@use "breakpoints";
+@use "layout";
+
+.layout {
+  @include layout.container;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 64px;
+}
+
+.main {
+  order: 1;
+  flex: 999 1 560px;
+  min-width: 0;
+}
+
+.aside {
+  order: 2;
+  flex: 1 1 360px;
+  min-width: 0;
+
+  @include breakpoints.narrow {
+    order: 0;
+  }
+
+  @include breakpoints.mobile {
+    display: none;
+  }
+}

@@ -6,7 +6,6 @@ from pydantic import Field, SecretStr, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-PROJECT_ROOT = BASE_DIR.parents[1]
 
 
 class Settings(BaseSettings):

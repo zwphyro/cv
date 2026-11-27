@@ -1,0 +1,43 @@
+@use "breakpoints";
+@use "layout";
+
+.footer {
+  border-top: 1px solid var(--line);
+  background: var(--bg-footer);
+}
+
+.inner {
+  @include layout.container;
+
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-block: 56px 40px;
+
+  @include breakpoints.mobile {
+    gap: 24px;
+    padding-block: 40px 32px;
+  }
+}
+
+.title {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 22px;
+
+  @include breakpoints.mobile {
+    font-size: 20px;
+  }
+}
+
+.copyright {
+  margin: 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--line-soft);
+  color: var(--muted);
+  font-size: 12px;
+
+  @include breakpoints.mobile {
+    padding-top: 20px;
+  }
+}
