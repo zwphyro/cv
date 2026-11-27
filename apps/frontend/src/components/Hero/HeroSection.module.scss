@@ -1,0 +1,63 @@
+@use "breakpoints";
+@use "layout";
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 640px;
+  padding-bottom: 72px;
+
+  @include breakpoints.mobile {
+    min-height: auto;
+    padding-bottom: 56px;
+  }
+}
+
+// The dots reach down to the line that separates the facts
+.surface {
+  position: relative;
+  padding: 120px 0 52px;
+  overflow: hidden;
+
+  @include breakpoints.mobile {
+    margin-inline: calc(-1 * layout.$gutter-mobile);
+    padding: 48px layout.$gutter-mobile 34px;
+  }
+}
+
+.dots,
+.trail {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  white-space: pre;
+  pointer-events: none;
+  user-select: none;
+}
+
+.dots {
+  color: var(--dots);
+}
+
+.trail {
+  color: var(--accent);
+  opacity: 0.55;
+
+  @include breakpoints.mobile {
+    opacity: 0.6;
+  }
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+
+  @include breakpoints.mobile {
+    gap: 26px;
+  }
+}

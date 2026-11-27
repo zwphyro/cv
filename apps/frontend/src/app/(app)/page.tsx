@@ -2,11 +2,14 @@ import { connection } from "next/server";
 
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
+import { Hero } from "@/components/Hero/Hero";
 import { Section } from "@/components/Section/Section";
 import { DEFAULT_LOCALE } from "@/i18n/locales";
+import { getStrings } from "@/i18n/strings";
 import { getHomepage } from "@/lib/cms/getHomepage";
 import { getSite } from "@/lib/cms/getSite";
 import { getQuickContacts } from "@/lib/contacts";
+import { getCvFile } from "@/lib/cvFile";
 import { getNavSections, SECTION_IDS } from "@/lib/sections";
 
 import styles from "./page.module.scss";
@@ -30,6 +33,12 @@ export default async function Home() {
         className={styles.layout}
       >
         <main className={styles.main}>
+          <Hero
+            hero={homepage.hero}
+            name={site.name}
+            cv={getCvFile(site)}
+            strings={getStrings(locale).hero}
+          />
           {SECTION_IDS.map((id) => (
             <Section
               key={id}
