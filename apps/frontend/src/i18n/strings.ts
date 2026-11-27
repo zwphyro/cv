@@ -23,21 +23,22 @@ export interface UiStrings {
     present: string;
   };
   contactForm: {
-    nameLabel: string;
+    authorLabel: string;
     emailLabel: string;
     messageLabel: string;
     submit: string;
     sending: string;
     sent: string;
     sendAnother: string;
-    nameRequired: string;
-    nameTooLong: string;
+    authorRequired: string;
+    authorTooLong: string;
     emailRequired: string;
     emailInvalid: string;
     emailTooLong: string;
     messageRequired: string;
     messageTooLong: string;
     verificationFailed: string;
+    tooManyRequests: string;
     sendFailed: string;
   };
   footer: {
@@ -72,21 +73,22 @@ const en: UiStrings = {
     present: "Present",
   },
   contactForm: {
-    nameLabel: "Name",
+    authorLabel: "Name",
     emailLabel: "Email",
     messageLabel: "Message",
     submit: "Send message",
     sending: "Sending your message…",
     sent: "Message sent",
     sendAnother: "Send another message",
-    nameRequired: "Enter your name",
-    nameTooLong: "Name must be at most {max} characters",
+    authorRequired: "Enter your name",
+    authorTooLong: "Name must be at most {max} characters",
     emailRequired: "Enter your email",
     emailInvalid: "Enter a valid email address",
     emailTooLong: "Email must be at most {max} characters",
     messageRequired: "Enter a message",
     messageTooLong: "Message must be at most {max} characters",
     verificationFailed: "Couldn't verify that you're not a bot. Please try again.",
+    tooManyRequests: "Too many requests. Please try again in a minute.",
     sendFailed: "Couldn't send the message. Please try again later.",
   },
   footer: {

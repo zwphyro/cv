@@ -361,19 +361,37 @@
         ],
         "title": "CreateRequestRequest"
       },
+      "ErrorCode": {
+        "type": "string",
+        "enum": [
+          "internal_error",
+          "not_found",
+          "request_not_found",
+          "forbidden",
+          "captcha_failed",
+          "service_unavailable",
+          "captcha_unavailable"
+        ],
+        "title": "ErrorCode"
+      },
       "ErrorResponse": {
         "properties": {
           "detail": {
             "type": "string",
             "title": "Detail"
+          },
+          "code": {
+            "$ref": "#/components/schemas/ErrorCode"
           }
         },
         "type": "object",
         "required": [
-          "detail"
+          "detail",
+          "code"
         ],
         "title": "ErrorResponse",
         "example": {
+          "code": "internal_error",
           "detail": "Error message"
         }
       },

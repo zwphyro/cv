@@ -1,12 +1,12 @@
 import { connection } from "next/server";
 
 import { AsciiTorus } from "@/components/AsciiTorus/AsciiTorus";
+import { Contact } from "@/components/Contact/Contact";
 import { Education } from "@/components/Education/Education";
 import { Experience } from "@/components/Experience/Experience";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import { Hero } from "@/components/Hero/Hero";
-import { Section } from "@/components/Section/Section";
 import { Skills } from "@/components/Skills/Skills";
 import { DEFAULT_LOCALE } from "@/i18n/locales";
 import { getStrings } from "@/i18n/strings";
@@ -14,7 +14,8 @@ import { getHomepage } from "@/lib/cms/getHomepage";
 import { getSite } from "@/lib/cms/getSite";
 import { getQuickContacts } from "@/lib/contacts";
 import { getCvFile } from "@/lib/cvFile";
-import { getNavSections, SECTION_IDS } from "@/lib/sections";
+import { env } from "@/lib/env";
+import { getNavSections } from "@/lib/sections";
 
 import styles from "./page.module.scss";
 
@@ -58,13 +59,10 @@ export default async function Home() {
             locale={locale}
             presentLabel={strings.experience.present}
           />
-          {SECTION_IDS.filter((id) => id === "contact").map((id) => (
-            <Section
-              key={id}
-              id={id}
-              title={homepage[id].title}
-            />
-          ))}
+          <Contact
+            contact={homepage.contact}
+            turnstileSiteKey={env.TURNSTILE_SITE_KEY}
+          />
         </main>
         <aside
           aria-hidden="true"

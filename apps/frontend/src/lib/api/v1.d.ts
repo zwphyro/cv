@@ -59,14 +59,21 @@ export interface components {
             message: string;
         };
         /**
+         * ErrorCode
+         * @enum {string}
+         */
+        ErrorCode: "internal_error" | "not_found" | "request_not_found" | "forbidden" | "captcha_failed" | "service_unavailable" | "captcha_unavailable";
+        /**
          * ErrorResponse
          * @example {
+         *       "code": "internal_error",
          *       "detail": "Error message"
          *     }
          */
         ErrorResponse: {
             /** Detail */
             detail: string;
+            code: components["schemas"]["ErrorCode"];
         };
         /** HTTPValidationError */
         HTTPValidationError: {

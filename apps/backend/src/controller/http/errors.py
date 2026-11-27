@@ -8,6 +8,7 @@ from pydantic import BaseModel, ConfigDict
 
 from src.entity.errors import (
     AppError,
+    ErrorCode,
     ForbiddenError,
     NotFoundError,
     ServiceUnavailableError,
@@ -25,9 +26,12 @@ ERROR_STATUS: Final[Mapping[type[AppError], int]] = {
 
 class ErrorResponse(BaseModel):
     detail: str
+    code: ErrorCode
 
     model_config = ConfigDict(
-        json_schema_extra={"example": {"detail": "Error message"}}
+        json_schema_extra={
+            "example": {"detail": "Error message", "code": ErrorCode.INTERNAL_ERROR}
+        }
     )
 
 
@@ -68,14 +72,16 @@ def register_error_handlers(app: FastAPI):
         if status_code is None:
             log.error("Unmapped application error", exc_info=exc)
             return _error_response(
-                status.HTTP_500_INTERNAL_SERVER_ERROR, "Internal server error"
+                status.HTTP_500_INTERNAL_SERVER_ERROR,
+                "Internal server error",
+                ErrorCode.INTERNAL_ERROR,
             )
 
-        return _error_response(status_code, str(exc))
+        return _error_response(status_code, str(exc), exc.code)
 
 
-def _error_response(status_code: int, detail: str):
+def _error_response(status_code: int, detail: str, code: ErrorCode):
     return JSONResponse(
         status_code=status_code,
-        content=ErrorResponse(detail=detail).model_dump(),
+        content=ErrorResponse(detail=detail, code=code).model_dump(mode="json"),
     )

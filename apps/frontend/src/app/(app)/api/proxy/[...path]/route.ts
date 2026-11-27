@@ -40,19 +40,19 @@ async function forward(request: NextRequest, segments: string[], body: Blob | un
 async function handler(request: NextRequest, context: RouteContext<"/api/proxy/[...path]">) {
   const { path: segments } = await context.params;
 
-  if (!findAllowedRoute(request.method, segments)) return proxyError(404, "Not found");
-  if (!isSameOrigin(request)) return proxyError(403, "Cross-origin requests are not allowed");
+  if (!findAllowedRoute(request.method, segments)) return proxyError("not_found");
+  if (!isSameOrigin(request)) return proxyError("cross_origin");
 
   const hasBody = METHODS_WITH_BODY.has(request.method);
-  if (hasBody && !isJson(request)) return proxyError(415, "Expected application/json");
+  if (hasBody && !isJson(request)) return proxyError("unsupported_media_type");
 
   try {
     const body = hasBody ? await readBody(request, MAX_BODY_BYTES) : undefined;
     return await forward(request, segments, body);
   } catch (error) {
-    if (error instanceof BodyTooLargeError) return proxyError(413, "Request body is too large");
-    if (error instanceof DOMException && error.name === "TimeoutError") return proxyError(504, "Backend timed out");
-    return proxyError(502, "Backend is unavailable");
+    if (error instanceof BodyTooLargeError) return proxyError("payload_too_large");
+    if (error instanceof DOMException && error.name === "TimeoutError") return proxyError("backend_timeout");
+    return proxyError("backend_unavailable");
   }
 }
 

@@ -101,7 +101,7 @@ These rules are checked by [import-linter](https://import-linter.readthedocs.io/
 
 #### Errors
 
-Domain errors inherit from one of the categories in `entity/errors.py` (for example, `NotFoundError`). The category is mapped to the HTTP status in `ERROR_STATUS` in `controller/http/errors.py`, and every subclass gets the status of its nearest category. The application fails to start if some error has no category. Use `error_responses(...)` in routes to document error responses in OpenAPI.
+Domain errors inherit from one of the categories in `entity/errors.py` (for example, `NotFoundError`). The category is mapped to the HTTP status in `ERROR_STATUS` in `controller/http/errors.py`, and every subclass gets the status of its nearest category. The application fails to start if some error has no category. Every error also has a machine-readable `code` from `ErrorCode`, returned next to `detail` so clients can tell errors with the same status apart (for example, `captcha_failed` from `forbidden`). Use `error_responses(...)` in routes to document error responses in OpenAPI.
 
 #### Notifications
 

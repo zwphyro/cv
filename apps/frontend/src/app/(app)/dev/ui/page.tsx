@@ -153,7 +153,7 @@ export default function UiPlaygroundPage() {
           className={styles.column}
         >
           <TextField
-            label={contactForm.nameLabel}
+            label={contactForm.authorLabel}
             autoComplete="name"
           />
           <TextField
