@@ -1,6 +1,7 @@
 import { connection } from "next/server";
 
 import { AsciiTorus } from "@/components/AsciiTorus/AsciiTorus";
+import { Experience } from "@/components/Experience/Experience";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import { Hero } from "@/components/Hero/Hero";
@@ -22,6 +23,7 @@ export default async function Home() {
   const locale = DEFAULT_LOCALE;
   const [site, homepage] = await Promise.all([getSite(locale), getHomepage(locale)]);
   const contacts = site.contacts ?? [];
+  const strings = getStrings(locale);
 
   return (
     <>
@@ -39,13 +41,18 @@ export default async function Home() {
             hero={homepage.hero}
             name={site.name}
             cv={getCvFile(site)}
-            strings={getStrings(locale).hero}
+            strings={strings.hero}
           />
           <Skills
             skills={homepage.skills}
-            strings={getStrings(locale).skills}
+            strings={strings.skills}
           />
-          {SECTION_IDS.filter((id) => id !== "skills").map((id) => (
+          <Experience
+            experience={homepage.experience}
+            locale={locale}
+            presentLabel={strings.experience.present}
+          />
+          {SECTION_IDS.filter((id) => id !== "skills" && id !== "experience").map((id) => (
             <Section
               key={id}
               id={id}

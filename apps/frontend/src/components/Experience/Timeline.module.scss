@@ -1,0 +1,77 @@
+@use "breakpoints";
+
+.timeline {
+  --line-left: 6px;
+
+  position: relative;
+  padding-left: 40px;
+
+  @include breakpoints.mobile {
+    --line-left: 5px;
+
+    padding-left: 24px;
+  }
+}
+
+.track,
+.fill {
+  position: absolute;
+  top: 10px;
+  bottom: 0;
+  left: var(--line-left);
+  width: 1px;
+}
+
+.track {
+  background: var(--line);
+}
+
+.fill {
+  background: var(--accent);
+  transform: scaleY(var(--fill));
+  transform-origin: top;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include breakpoints.mobile {
+    gap: 48px;
+  }
+}
+
+.item {
+  position: relative;
+}
+
+.marker {
+  position: absolute;
+  top: 6px;
+  left: -40px;
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--muted-2);
+  background: var(--bg);
+  transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+
+  @include breakpoints.mobile {
+    left: -24px;
+    width: 11px;
+    height: 11px;
+  }
+}
+
+.lit {
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+
+  @include breakpoints.mobile {
+    box-shadow: 0 0 10px var(--accent);
+  }
+}

@@ -1,0 +1,9 @@
+@use "breakpoints";
+
+.heading {
+  margin-bottom: 48px;
+
+  @include breakpoints.mobile {
+    margin-bottom: 36px;
+  }
+}

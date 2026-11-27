@@ -1,0 +1,58 @@
+@use "breakpoints";
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  background: var(--bg-inset);
+
+  @include breakpoints.mobile {
+    padding: 12px;
+  }
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+  font-size: 14px;
+
+  @include breakpoints.mobile {
+    flex-direction: column;
+  }
+}
+
+.name {
+  width: 136px;
+  color: var(--text-2);
+}
+
+.meter {
+  display: flex;
+  gap: 16px;
+
+  @include breakpoints.mobile {
+    justify-content: space-between;
+  }
+}
+
+.bar {
+  @include breakpoints.mobile {
+    font-size: 13px;
+  }
+}
+
+.value {
+  color: var(--text-strong);
+  font-weight: 700;
+}
