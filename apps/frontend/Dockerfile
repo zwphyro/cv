@@ -45,6 +45,12 @@ USER 1000:1000
 
 CMD ["node_modules/.bin/payload", "migrate"]
 
+FROM migrate AS seed
+
+COPY --from=build /app/apps/frontend/seed ./seed
+
+CMD ["node_modules/.bin/payload", "run", "seed/seed.ts"]
+
 FROM node:24.22.2-alpine3.24 AS run
 
 ENV NODE_ENV=production

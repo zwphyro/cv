@@ -1,0 +1,16 @@
+.bar {
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.fill {
+  color: var(--accent);
+}
+
+.default .empty {
+  color: var(--bar-empty);
+}
+
+.strong .empty {
+  color: var(--line-strong);
+}

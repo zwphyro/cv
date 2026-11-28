@@ -1,0 +1,12 @@
+@use "breakpoints";
+
+.eyebrow {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  @include breakpoints.mobile {
+    font-size: 11px;
+  }
+}

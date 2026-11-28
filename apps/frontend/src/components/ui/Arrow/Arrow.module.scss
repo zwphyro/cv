@@ -1,0 +1,5 @@
+@use "typography";
+
+.arrow {
+  @include typography.no-ligatures;
+}

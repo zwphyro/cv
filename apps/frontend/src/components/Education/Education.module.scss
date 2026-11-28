@@ -1,0 +1,86 @@
+@use "breakpoints";
+
+.heading {
+  margin-bottom: 40px;
+
+  @include breakpoints.mobile {
+    margin-bottom: 28px;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+
+  @include breakpoints.mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  @include breakpoints.mobile {
+    gap: 4px;
+  }
+}
+
+.languages {
+  @include breakpoints.mobile {
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+}
+
+.title {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 18px;
+
+  @include breakpoints.mobile {
+    font-size: 17px;
+    line-height: 1.4;
+  }
+}
+
+.line {
+  margin: 0;
+  color: var(--text-2);
+}
+
+.period {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+
+  @include breakpoints.mobile {
+    font-size: 12px;
+  }
+}
+
+.details {
+  gap: 6px;
+  margin-top: 8px;
+
+  @include breakpoints.mobile {
+    gap: 4px;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include breakpoints.mobile {
+    gap: 4px;
+  }
+}

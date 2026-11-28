@@ -1,0 +1,41 @@
+@use "breakpoints";
+@use "layout";
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.desktop {
+  @include layout.container;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  align-items: center;
+  min-height: 52px;
+  padding-block: 8px;
+
+  @include breakpoints.mobile {
+    display: none;
+  }
+}
+
+.progress {
+  @include breakpoints.narrow {
+    display: none;
+  }
+}
+
+.mobile {
+  display: none;
+  max-width: layout.$container-width-mobile;
+  margin: 0 auto;
+
+  @include breakpoints.mobile {
+    display: block;
+  }
+}

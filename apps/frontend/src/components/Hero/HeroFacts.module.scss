@@ -1,0 +1,63 @@
+@use "breakpoints";
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+
+  @include breakpoints.mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+}
+
+.fact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  @include breakpoints.mobile {
+    flex-direction: row;
+    gap: 16px;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+
+    &:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+  }
+}
+
+.value {
+  color: var(--text-strong);
+  font-size: 22px;
+  font-weight: 700;
+
+  @include breakpoints.mobile {
+    flex: none;
+    max-width: 50%;
+    font-size: 20px;
+  }
+}
+
+.highlighted {
+  color: var(--accent);
+}
+
+.caption {
+  color: var(--muted);
+  font-size: 13px;
+
+  @include breakpoints.mobile {
+    text-align: right;
+  }
+}

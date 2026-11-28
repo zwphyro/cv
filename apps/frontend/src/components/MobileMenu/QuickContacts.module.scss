@@ -1,0 +1,12 @@
+.quickContacts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px 20px 32px;
+  border-top: 1px solid var(--line);
+}
+
+.link {
+  justify-content: flex-start;
+  overflow-wrap: anywhere;
+}

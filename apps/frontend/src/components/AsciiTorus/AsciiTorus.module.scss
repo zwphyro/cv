@@ -1,0 +1,20 @@
+.torus {
+  margin: 0;
+  white-space: pre;
+  user-select: none;
+}
+
+.desktop {
+  color: var(--text-2);
+  font-size: 12px;
+  line-height: 13.2px;
+  cursor: crosshair;
+}
+
+.mobile {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 11px;
+  opacity: 0.32;
+  pointer-events: none;
+}

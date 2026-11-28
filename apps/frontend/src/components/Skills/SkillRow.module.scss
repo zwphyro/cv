@@ -1,0 +1,81 @@
+@use "breakpoints";
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  align-items: center;
+
+  @include breakpoints.mobile {
+    flex-flow: column nowrap;
+    gap: 4px;
+    align-items: stretch;
+  }
+}
+
+.text {
+  display: flex;
+  flex: 1 1 240px;
+  flex-direction: column;
+  min-width: 0;
+
+  @include breakpoints.mobile {
+    display: contents;
+  }
+}
+
+.name {
+  color: var(--accent);
+  font-size: 17px;
+  font-weight: 700;
+
+  @include breakpoints.mobile {
+    font-size: 16px;
+  }
+}
+
+.note {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.meter {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+
+  @include breakpoints.mobile {
+    gap: 12px;
+    justify-content: space-between;
+  }
+}
+
+.desktopBar {
+  font-size: 14px;
+
+  @include breakpoints.mobile {
+    display: none;
+  }
+}
+
+.mobileBar {
+  display: none;
+  font-size: 13px;
+
+  @include breakpoints.mobile {
+    display: inline;
+  }
+}
+
+.since {
+  width: 92px;
+  color: var(--text-2);
+  font-size: 13px;
+  text-align: right;
+  white-space: nowrap;
+
+  @include breakpoints.mobile {
+    width: auto;
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,21 @@
+.progress {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 12px;
+  white-space: pre;
+}
+
+.bar {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.percent {
+  width: 4ch;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}

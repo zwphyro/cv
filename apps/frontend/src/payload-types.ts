@@ -86,10 +86,16 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
-  locale: null;
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | 'en' | 'en'[];
+  globals: {
+    site: Site;
+    homepage: Homepage;
+  };
+  globalsSelect: {
+    site: SiteSelect<false> | SiteSelect<true>;
+    homepage: HomepageSelect<false> | HomepageSelect<true>;
+  };
+  locale: 'en';
   widgets: {
     collections: CollectionsWidget;
   };
@@ -149,7 +155,10 @@ export interface User {
  */
 export interface Media {
   id: number;
-  alt: string;
+  /**
+   * Required for images, not needed for PDF files.
+   */
+  alt?: string | null;
   _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -321,6 +330,423 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site".
+ */
+export interface Site {
+  id: number;
+  /**
+   * Your name as shown in the header, hero and footer.
+   */
+  name: string;
+  seo: {
+    title: string;
+    description: string;
+  };
+  /**
+   * The file behind the "Download CV" button. Each language can have its own.
+   */
+  cv?: (number | null) | Media;
+  /**
+   * Listed in the footer in this order.
+   */
+  contacts?:
+    | {
+        /**
+         * Email gets a Copy button.
+         */
+        kind: 'email' | 'telegram' | 'phone' | 'linkedin' | 'github' | 'other';
+        label: string;
+        /**
+         * Button in the mobile menu.
+         */
+        quickContact: 'none' | 'primary' | 'secondary';
+        /**
+         * What visitors see, e.g. "@mstarodubovdev".
+         */
+        value: string;
+        /**
+         * Where the link leads, e.g. "https://t.me/mstarodubovdev".
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage".
+ */
+export interface Homepage {
+  id: number;
+  hero: {
+    /**
+     * Line next to the green dot.
+     */
+    status: string;
+    /**
+     * Large heading. Wraps between words when it doesn't fit on one line.
+     */
+    title: string;
+    description: string;
+    facts?:
+      | {
+          value: string;
+          caption: string;
+          highlighted?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  skills: {
+    /**
+     * Section heading.
+     */
+    title: string;
+    /**
+     * Menu item that leads to this section.
+     */
+    navLabel: string;
+    intro: string;
+    groups?:
+      | {
+          title: string;
+          /**
+           * Main stack first. The bar length grows with the years of use.
+           */
+          items?:
+            | {
+                name: string;
+                /**
+                 * Year you started using it in production.
+                 */
+                since: number;
+                note?: string | null;
+                id?: string | null;
+              }[]
+            | null;
+          /**
+           * Other tools of the group, listed in one line.
+           */
+          also?: string[] | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  experience: {
+    /**
+     * Section heading.
+     */
+    title: string;
+    /**
+     * Menu item that leads to this section.
+     */
+    navLabel: string;
+    /**
+     * Newest first.
+     */
+    jobs?:
+      | {
+          position: string;
+          company: string;
+          start: string;
+          start_tz: 'UTC';
+          /**
+           * Leave empty if it is still ongoing.
+           */
+          end?: string | null;
+          end_tz?: 'UTC' | null;
+          location?: string | null;
+          /**
+           * Free text. Stat and Metrics blocks can be inserted anywhere.
+           */
+          body?: {
+            root: {
+              type: string;
+              children: {
+                type: any;
+                version: number;
+                [k: string]: unknown;
+              }[];
+              direction: ('ltr' | 'rtl') | null;
+              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+              indent: number;
+              version: number;
+            };
+            [k: string]: unknown;
+          } | null;
+          /**
+           * Separate stories within this job, each with its own dates.
+           */
+          projects?:
+            | {
+                title: string;
+                start: string;
+                start_tz: 'UTC';
+                /**
+                 * Leave empty if it is still ongoing.
+                 */
+                end?: string | null;
+                end_tz?: 'UTC' | null;
+                body?: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                } | null;
+                /**
+                 * Technologies, listed in one line.
+                 */
+                stack?: string[] | null;
+                id?: string | null;
+              }[]
+            | null;
+          /**
+           * Technologies, listed in one line.
+           */
+          stack?: string[] | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  education: {
+    /**
+     * Section heading.
+     */
+    title: string;
+    /**
+     * Menu item that leads to this section.
+     */
+    navLabel: string;
+    items?:
+      | {
+          degree: string;
+          institution: string;
+          start: string;
+          start_tz: 'UTC';
+          /**
+           * Leave empty if it is still ongoing.
+           */
+          end?: string | null;
+          end_tz?: 'UTC' | null;
+          details?: {
+            root: {
+              type: string;
+              children: {
+                type: any;
+                version: number;
+                [k: string]: unknown;
+              }[];
+              direction: ('ltr' | 'rtl') | null;
+              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+              indent: number;
+              version: number;
+            };
+            [k: string]: unknown;
+          } | null;
+          id?: string | null;
+        }[]
+      | null;
+    languagesTitle: string;
+    languages?:
+      | {
+          name: string;
+          /**
+           * E.g. "B2, upper-intermediate" or "native".
+           */
+          level: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  contact: {
+    /**
+     * Section heading.
+     */
+    title: string;
+    /**
+     * Menu item that leads to this section.
+     */
+    navLabel: string;
+    /**
+     * The first paragraph is shown larger.
+     */
+    body: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    formTitle: string;
+    /**
+     * Shown under "Message sent" after the form is submitted.
+     */
+    successMessage: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site_select".
+ */
+export interface SiteSelect<T extends boolean = true> {
+  name?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  cv?: T;
+  contacts?:
+    | T
+    | {
+        kind?: T;
+        label?: T;
+        quickContact?: T;
+        value?: T;
+        href?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage_select".
+ */
+export interface HomepageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        status?: T;
+        title?: T;
+        description?: T;
+        facts?:
+          | T
+          | {
+              value?: T;
+              caption?: T;
+              highlighted?: T;
+              id?: T;
+            };
+      };
+  skills?:
+    | T
+    | {
+        title?: T;
+        navLabel?: T;
+        intro?: T;
+        groups?:
+          | T
+          | {
+              title?: T;
+              items?:
+                | T
+                | {
+                    name?: T;
+                    since?: T;
+                    note?: T;
+                    id?: T;
+                  };
+              also?: T;
+              id?: T;
+            };
+      };
+  experience?:
+    | T
+    | {
+        title?: T;
+        navLabel?: T;
+        jobs?:
+          | T
+          | {
+              position?: T;
+              company?: T;
+              start?: T;
+              start_tz?: T;
+              end?: T;
+              end_tz?: T;
+              location?: T;
+              body?: T;
+              projects?:
+                | T
+                | {
+                    title?: T;
+                    start?: T;
+                    start_tz?: T;
+                    end?: T;
+                    end_tz?: T;
+                    body?: T;
+                    stack?: T;
+                    id?: T;
+                  };
+              stack?: T;
+              id?: T;
+            };
+      };
+  education?:
+    | T
+    | {
+        title?: T;
+        navLabel?: T;
+        items?:
+          | T
+          | {
+              degree?: T;
+              institution?: T;
+              start?: T;
+              start_tz?: T;
+              end?: T;
+              end_tz?: T;
+              details?: T;
+              id?: T;
+            };
+        languagesTitle?: T;
+        languages?:
+          | T
+          | {
+              name?: T;
+              level?: T;
+              id?: T;
+            };
+      };
+  contact?:
+    | T
+    | {
+        title?: T;
+        navLabel?: T;
+        body?: T;
+        formTitle?: T;
+        successMessage?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_widget".
  */
 export interface CollectionsWidget {
@@ -328,6 +754,48 @@ export interface CollectionsWidget {
     [k: string]: unknown;
   };
   width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatBlock".
+ */
+export interface StatBlock {
+  /**
+   * A short headline number, e.g. "3 h -> 10 min".
+   */
+  value: string;
+  /**
+   * What the number means.
+   */
+  caption: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'stat';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MetricsBlock".
+ */
+export interface MetricsBlock {
+  /**
+   * Heading of the panel, e.g. "Lighthouse scores".
+   */
+  label: string;
+  items: {
+    name: string;
+    value: number;
+    min: number;
+    max: number;
+    /**
+     * Shown right after the value, e.g. "%" or " ms".
+     */
+    suffix?: string | null;
+    showMax?: boolean | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'metrics';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

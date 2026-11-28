@@ -1,0 +1,52 @@
+@use "breakpoints";
+
+.project {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px 22px 20px;
+  border: 1px solid var(--line);
+
+  @include breakpoints.mobile {
+    padding: 18px 14px 16px;
+  }
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  justify-content: space-between;
+
+  @include breakpoints.mobile {
+    flex-flow: column nowrap;
+    gap: 0;
+  }
+}
+
+.title {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 16px;
+
+  @include breakpoints.mobile {
+    font-size: 15px;
+  }
+}
+
+.period {
+  color: var(--muted);
+  font-size: 13px;
+
+  @include breakpoints.mobile {
+    font-size: 12px;
+  }
+}
+
+.body {
+  gap: 16px;
+
+  @include breakpoints.mobile {
+    font-size: 14px;
+  }
+}

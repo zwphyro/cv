@@ -10,6 +10,10 @@ Detailed overview of environment variables.
 | Variable | Used by | Required | Default | GitHub | Comment |
 |---|---|---|---|---|---|
 | `FRONTEND_PORT` | compose | No | `3000` | var | |
+| `FRONTEND_PUBLIC_URL` | frontend | No | - | var | Public address of the site, e.g. `https://example.com`. Used for absolute links in link previews, the canonical URL and the sitemap; without it they are left out. |
+| `FRONTEND_INDEXING_ENABLED` | frontend | No | `false` | var | Only `true` lets search engines index the site. Otherwise `robots.txt` disallows everything, the page is `noindex` and the sitemap is empty. Enable it in production only. |
+| `TURNSTILE_SITE_KEY` | frontend | Yes | - | var | Cloudflare Turnstile site key of the contact form. Use test key `1x00000000000000000000AA` (always passes, invisible) or `3x00000000000000000000FF` (forces an interactive challenge) for development. |
+| `BACKEND_INTERNAL_URL` | frontend | Yes | `http://backend:8000` in compose | - | Backend address reachable from the frontend server, never from the browser. Set by compose; needed in `apps/frontend/.env` only for local development. |
 
 ### CMS
 | Variable | Used by | Required | Default | GitHub | Comment |
@@ -20,6 +24,7 @@ Detailed overview of environment variables.
 | `CMS_SECRET` | cms | Yes | - | secret | Secret Payload uses to sign and encrypt auth tokens/cookies. |
 | `CMS_ADMIN_EMAIL` | cms | No | - | secret | Used to create admin account automatically. |
 | `CMS_ADMIN_PASSWORD` | cms | No | - | secret | CMS_ADMIN_EMAIL and CMS_ADMIN_PASSWORD must be specified or unspecified simultaneously |
+| `CMS_SEED_ENABLED` | cms seed | No | `false` | var | `true` overwrites the `site` and `homepage` globals with the content from `apps/frontend/seed` on start. Edits made in the admin are lost. |
 
 ### Backend
 | Variable | Used by | Required | Default | GitHub | Comment |

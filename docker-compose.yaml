@@ -18,6 +18,10 @@ x-frontend-env: &frontend-env
   S3_BUCKET: ${S3_BUCKET:-${RUSTFS_BUCKET}}
   S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-${RUSTFS_ACCESS_KEY}}
   S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:-${RUSTFS_SECRET_KEY}}
+  BACKEND_INTERNAL_URL: http://backend:8000
+  TURNSTILE_SITE_KEY: ${TURNSTILE_SITE_KEY:?}
+  FRONTEND_PUBLIC_URL: ${FRONTEND_PUBLIC_URL:-}
+  FRONTEND_INDEXING_ENABLED: ${FRONTEND_INDEXING_ENABLED:-false}
 
 x-backend-env: &backend-env
   POSTGRES_HOST: postgres
@@ -55,6 +59,24 @@ services:
       timeout: 5s
       retries: 5
     restart: always
+    depends_on:
+      frontend_seed:
+        condition: service_completed_successfully
+    networks:
+      - default_network
+    logging: *default-logging
+
+  frontend_seed:
+    container_name: frontend_seed
+    image: cv_frontend_seed
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+      target: seed
+    environment:
+      <<: *frontend-env
+      CMS_SEED_ENABLED: ${CMS_SEED_ENABLED:-false}
+    restart: "no"
     depends_on:
       frontend_migrate:
         condition: service_completed_successfully

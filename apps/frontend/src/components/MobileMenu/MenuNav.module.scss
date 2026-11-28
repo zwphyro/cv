@@ -1,0 +1,40 @@
+.nav {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  padding: 40px 20px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 26px;
+  font-weight: 700;
+  text-decoration: none;
+
+  &,
+  &:hover {
+    color: var(--text);
+  }
+}
+
+.arrow {
+  color: var(--muted-2);
+  font-size: 18px;
+}
+
+.active {
+  border-bottom: none;
+  background: var(--accent);
+
+  &,
+  &:hover,
+  .arrow {
+    color: var(--on-accent);
+  }
+}

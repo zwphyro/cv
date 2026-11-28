@@ -14,18 +14,27 @@
     "generate:importmap": "payload generate:importmap",
     "migrate": "payload migrate",
     "migrate:create": "payload migrate:create",
-    "migrate:status": "payload migrate:status"
+    "migrate:status": "payload migrate:status",
+    "seed": "payload run seed/seed.ts",
+    "seed:check": "payload run seed/check.ts",
+    "openapi:update": "openapi-typescript ../backend/openapi.json -o src/lib/api/v1.d.ts && node scripts/generate-proxy-routes.mjs"
   },
   "dependencies": {
-    "@payloadcms/db-postgres": "^3.92.1",
-    "@payloadcms/next": "^3.92.1",
-    "@payloadcms/richtext-lexical": "^3.92.1",
-    "@payloadcms/storage-s3": "^3.92.1",
+    "@marsidev/react-turnstile": "^1.6.3",
+    "@payloadcms/db-postgres": "^3.93.0",
+    "@payloadcms/next": "^3.93.0",
+    "@payloadcms/richtext-lexical": "^3.93.0",
+    "@payloadcms/storage-s3": "^3.93.0",
+    "@tanstack/react-form": "^1.33.5",
+    "@tanstack/react-query": "~5.106.1",
     "graphql": "^16.14.2",
     "next": "16.4.5",
-    "payload": "^3.92.1",
+    "openapi-fetch": "^0.17.0",
+    "openapi-react-query": "^0.5.4",
+    "payload": "^3.93.0",
     "react": "19.3.1",
     "react-dom": "19.3.1",
+    "server-only": "^0.0.1",
     "sharp": "^0.35.5",
     "zod": "^4.6.7"
   },
@@ -41,6 +50,8 @@
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-import-x": "^4.17.1",
     "eslint-plugin-simple-import-sort": "^14.0.0",
+    "openapi-typescript": "^7.13.0",
+    "sass": "^1.108.2",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.72.1"
   }

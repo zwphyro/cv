@@ -1,0 +1,27 @@
+.dialog {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: var(--bg);
+  color: var(--text);
+
+  &::backdrop {
+    background: var(--bg);
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.bar {
+  border-bottom: 1px solid var(--line);
+}

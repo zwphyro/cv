@@ -22,7 +22,7 @@ router = APIRouter()
 
 
 @router.post(
-    "/",
+    "",
     status_code=status.HTTP_201_CREATED,
     response_model=RequestSchema,
     responses=error_responses(CaptchaFailedError, CaptchaUnavailableError),
@@ -56,7 +56,7 @@ async def get_request(id: UUID, usecase: RequestUsecaseDep):
     return await usecase.get_request(id)
 
 
-@router.get("/", response_model=list[RequestSchema])
+@router.get("", response_model=list[RequestSchema])
 async def list_requests(usecase: RequestUsecaseDep):
     return await usecase.list_requests()
 
