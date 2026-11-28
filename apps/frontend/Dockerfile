@@ -1,4 +1,4 @@
-FROM node:24.22.2-alpine3.24 AS base
+FROM node:24.22.3-alpine3.24 AS base
 
 WORKDIR /app
 
@@ -29,7 +29,7 @@ RUN pnpm --filter frontend run build \
     # Next copies any .env files it finds into the standalone output; never ship them
     && rm -f apps/frontend/.next/standalone/apps/frontend/.env*
 
-FROM node:24.22.2-alpine3.24 AS migrate
+FROM node:24.22.3-alpine3.24 AS migrate
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS=--no-deprecation
@@ -51,7 +51,7 @@ COPY --from=build /app/apps/frontend/seed ./seed
 
 CMD ["node_modules/.bin/payload", "run", "seed/seed.ts"]
 
-FROM node:24.22.2-alpine3.24 AS run
+FROM node:24.22.3-alpine3.24 AS run
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS=--no-deprecation
